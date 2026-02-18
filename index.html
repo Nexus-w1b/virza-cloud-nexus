@@ -40,8 +40,7 @@
             width: 600px;
             height: 600px;
             background: radial-gradient(circle, rgba(129, 140, 248, 0.12) 0%, transparent 70%);
-            top: -200px;
-            right: -200px;
+            top: -200px; right: -200px;
             animation: float 20s ease-in-out infinite;
         }
         .ambient-bg::after {
@@ -50,15 +49,10 @@
             width: 500px;
             height: 500px;
             background: radial-gradient(circle, rgba(52, 211, 153, 0.08) 0%, transparent 70%);
-            bottom: -150px;
-            left: -150px;
+            bottom: -150px; left: -150px;
             animation: float 25s ease-in-out infinite reverse;
         }
-        
-        @keyframes float {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            50% { transform: translate(50px, 30px) scale(1.1); }
-        }
+        @keyframes float { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(50px, 30px) scale(1.1); } }
 
         .glass-bright { 
             background: rgba(30, 58, 95, 0.85);
@@ -71,26 +65,19 @@
         .glass-card {
             background: linear-gradient(145deg, rgba(30, 58, 95, 0.9), rgba(22, 32, 50, 0.9));
             border: 1px solid rgba(129, 140, 248, 0.15);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
         }
 
-        .portal-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 0.75rem;
-        }
+        .portal-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
         @media (min-width: 480px) { .portal-grid { grid-template-columns: repeat(3, 1fr); } }
         @media (min-width: 768px) { .portal-grid { grid-template-columns: repeat(4, 1fr); } }
         @media (min-width: 1024px) { .portal-grid { grid-template-columns: repeat(5, 1fr); } }
 
         .main-layout { display: flex; flex-direction: column; height: 100%; }
-        
         @media (min-width: 1024px) { 
             .main-layout.split-active { flex-direction: row; } 
             .chat-panel { flex: 1; }
             .preview-panel { width: 50%; border-left: 1px solid rgba(129, 140, 248, 0.2); }
         }
-
         @media (max-width: 1023px) {
             .main-layout.split-active .chat-panel { height: 50%; }
             .main-layout.split-active .preview-panel { height: 50%; width: 100%; }
@@ -105,14 +92,9 @@
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             border-radius: 1rem;
             cursor: pointer;
-            position: relative;
-            overflow: hidden;
         }
         .p-card:hover { transform: translateY(-3px); border-color: rgba(129, 140, 248, 0.4); box-shadow: 0 8px 25px rgba(129, 140, 248, 0.15); }
         .p-card:active { transform: scale(0.97); }
-
-        header { padding-top: env(safe-area-inset-top); }
-        .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
 
         .chat-input-wrapper {
             background: linear-gradient(to top, rgba(12, 18, 34, 0.98), rgba(12, 18, 34, 0.9));
@@ -120,198 +102,142 @@
         }
 
         .attachment-btn {
-            width: 38px;
-            height: 38px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            width: 38px; height: 38px;
+            display: flex; align-items: center; justify-content: center;
             border-radius: 12px;
             background: rgba(129, 140, 248, 0.1);
             border: 1px solid rgba(129, 140, 248, 0.2);
             color: #818cf8;
-            transition: all 0.2s;
-            cursor: pointer;
+            transition: all 0.2s; cursor: pointer;
         }
-        .attachment-btn:hover { background: rgba(129, 140, 248, 0.2); transform: scale(1.05); }
+        .attachment-btn:hover { background: rgba(129, 140, 248, 0.2); }
         .attachment-btn.active { background: rgba(52, 211, 153, 0.2); border-color: rgba(52, 211, 153, 0.4); color: #34d399; }
 
-        .history-card {
-            background: linear-gradient(145deg, rgba(30, 58, 95, 0.7), rgba(22, 32, 50, 0.7));
-            border: 1px solid rgba(129, 140, 248, 0.1);
-            border-radius: 0.75rem;
-            padding: 0.625rem;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .history-card:hover { background: rgba(129, 140, 248, 0.15); }
-
         .typing-indicator span {
-            display: inline-block;
-            width: 6px;
-            height: 6px;
-            background: #818cf8;
-            border-radius: 50%;
-            margin: 0 2px;
+            display: inline-block; width: 6px; height: 6px;
+            background: #818cf8; border-radius: 50%; margin: 0 2px;
             animation: typing 1.4s infinite ease-in-out both;
         }
         .typing-indicator span:nth-child(1) { animation-delay: -0.32s; }
         .typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
-        
-        @keyframes typing {
-            0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
-            40% { transform: scale(1); opacity: 1; }
-        }
+        @keyframes typing { 0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; } 40% { transform: scale(1); opacity: 1; } }
 
         .attachment-menu {
-            position: absolute;
-            bottom: 100%;
-            left: 0;
-            margin-bottom: 0.5rem;
+            position: absolute; bottom: 100%; left: 0; margin-bottom: 0.5rem;
             background: rgba(30, 58, 95, 0.98);
             border: 1px solid rgba(129, 140, 248, 0.2);
-            border-radius: 1rem;
-            padding: 0.5rem;
-            display: none;
-            flex-direction: column;
-            gap: 0.25rem;
+            border-radius: 1rem; padding: 0.5rem;
+            display: none; flex-direction: column; gap: 0.25rem;
             min-width: 180px;
-            box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.3);
-            z-index: 100;
+            box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.3); z-index: 100;
         }
         .attachment-menu.show { display: flex; animation: slideUp 0.2s ease-out; }
-        
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
+        @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .attachment-menu button {
-            display: flex;
-            align-items: center;
-            gap: 0.625rem;
+            display: flex; align-items: center; gap: 0.625rem;
             padding: 0.625rem 0.875rem;
-            background: transparent;
-            border: none;
-            border-radius: 0.625rem;
-            color: #e2e8f0;
-            font-size: 0.75rem;
-            cursor: pointer;
-            text-align: left;
-            transition: all 0.15s;
+            background: transparent; border: none; border-radius: 0.625rem;
+            color: #e2e8f0; font-size: 0.75rem; cursor: pointer; text-align: left;
         }
         .attachment-menu button:hover { background: rgba(129, 140, 248, 0.2); }
 
-        /* Attachment Preview */
         .attachment-preview {
             background: rgba(30, 58, 95, 0.6);
             border: 1px solid rgba(129, 140, 248, 0.2);
-            border-radius: 0.75rem;
-            padding: 0.75rem;
-            margin-bottom: 0.5rem;
+            border-radius: 0.75rem; padding: 0.75rem; margin-bottom: 0.5rem;
         }
-        
-        .attachment-preview-image {
-            max-width: 200px;
-            max-height: 120px;
-            border-radius: 0.5rem;
-            object-fit: cover;
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after {
-                animation-duration: 0.01ms !important;
-                transition-duration: 0.01ms !important;
-            }
-        }
-
-        button:focus-visible, input:focus-visible, textarea:focus-visible {
-            outline: 2px solid #818cf8;
-            outline-offset: 2px;
-        }
+        .attachment-preview-image { max-width: 200px; max-height: 120px; border-radius: 0.5rem; object-fit: cover; }
 
         .status-online { background: #34d399; box-shadow: 0 0 8px rgba(52, 211, 153, 0.5); }
         .status-offline { background: #f87171; box-shadow: 0 0 8px rgba(248, 113, 113, 0.5); }
         .status-searching { background: #fbbf24; animation: pulse 1.5s ease-in-out infinite; }
-
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
 
         .msg-enter { animation: msgSlide 0.3s ease-out; }
-        @keyframes msgSlide {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes msgSlide { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         .status-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.3rem;
-            padding: 0.2rem 0.6rem;
-            border-radius: 9999px;
-            font-size: 0.6rem;
-            font-weight: 700;
-            text-transform: uppercase;
+            display: inline-flex; align-items: center; gap: 0.3rem;
+            padding: 0.2rem 0.6rem; border-radius: 9999px;
+            font-size: 0.6rem; font-weight: 700; text-transform: uppercase;
         }
         .status-badge.connected { background: rgba(52, 211, 153, 0.15); color: #34d399; border: 1px solid rgba(52, 211, 153, 0.3); }
         .status-badge.disconnected { background: rgba(248, 113, 113, 0.15); color: #f87171; border: 1px solid rgba(248, 113, 113, 0.3); }
 
-        .key-item {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem;
-            background: rgba(129, 140, 248, 0.05);
-            border: 1px solid rgba(129, 140, 248, 0.1);
-            border-radius: 0.5rem;
-            margin-bottom: 0.375rem;
-            font-size: 0.75rem;
-        }
-        .key-item.active {
-            border-color: rgba(52, 211, 153, 0.3);
-            background: rgba(52, 211, 153, 0.05);
-        }
-        .key-item.exhausted {
-            border-color: rgba(248, 113, 113, 0.3);
-            background: rgba(248, 113, 113, 0.05);
-            opacity: 0.6;
-        }
-
         .toast {
-            position: fixed;
-            bottom: 80px;
-            left: 50%;
-            transform: translateX(-50%);
-            padding: 0.625rem 1.25rem;
-            border-radius: 1rem;
-            font-size: 0.75rem;
-            font-weight: 600;
-            z-index: 5000;
+            position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%);
+            padding: 0.625rem 1.25rem; border-radius: 1rem;
+            font-size: 0.75rem; font-weight: 600; z-index: 5000;
             animation: toastIn 0.3s ease-out;
         }
         .toast.success { background: rgba(52, 211, 153, 0.95); color: white; }
         .toast.error { background: rgba(248, 113, 113, 0.95); color: white; }
         .toast.warning { background: rgba(251, 191, 36, 0.95); color: black; }
-        
-        @keyframes toastIn {
-            from { opacity: 0; transform: translateX(-50%) translateY(20px); }
-            to { opacity: 1; transform: translateX(-50%) translateY(0); }
-        }
+        @keyframes toastIn { from { opacity: 0; transform: translateX(-50%) translateY(20px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
 
-        /* Speed Mode Buttons */
         .speed-btn {
-            padding: 0.25rem 0.625rem;
-            border-radius: 9999px;
-            font-size: 0.625rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            border: 1px solid;
-            transition: all 0.2s;
-            cursor: pointer;
+            padding: 0.25rem 0.625rem; border-radius: 9999px;
+            font-size: 0.625rem; font-weight: 700; text-transform: uppercase;
+            border: 1px solid; transition: all 0.2s; cursor: pointer;
         }
         .speed-btn.active { transform: scale(1.05); }
         .speed-btn.fast { background: rgba(52, 211, 153, 0.15); color: #34d399; border-color: rgba(52, 211, 153, 0.3); }
         .speed-btn.balanced { background: rgba(251, 191, 36, 0.15); color: #fbbf24; border-color: rgba(251, 191, 36, 0.3); }
         .speed-btn.quality { background: rgba(248, 113, 113, 0.15); color: #f87171; border-color: rgba(248, 113, 113, 0.3); }
         .speed-btn.inactive { background: rgba(100, 116, 139, 0.15); color: #64748b; border-color: rgba(100, 116, 139, 0.3); }
+
+        /* History Panel */
+        .history-panel {
+            position: fixed; inset: 0; z-index: 4000;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            display: none; align-items: center; justify-content: center; padding: 1rem;
+        }
+        .history-panel.show { display: flex; }
+        .history-panel-content {
+            width: 100%; max-width: 500px; max-height: 80vh;
+            background: linear-gradient(145deg, rgba(30, 58, 95, 0.95), rgba(22, 32, 50, 0.95));
+            border: 1px solid rgba(129, 140, 248, 0.2);
+            border-radius: 1.5rem; overflow: hidden;
+        }
+        .history-item {
+            background: rgba(129, 140, 248, 0.05);
+            border: 1px solid rgba(129, 140, 248, 0.1);
+            border-radius: 0.75rem; padding: 0.75rem;
+            margin-bottom: 0.5rem; cursor: pointer;
+            transition: all 0.2s;
+        }
+        .history-item:hover { background: rgba(129, 140, 248, 0.1); border-color: rgba(129, 140, 248, 0.2); }
+
+        /* Key Status Indicator */
+        .key-status-grid {
+            display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.25rem;
+        }
+        .key-dot {
+            width: 100%; aspect-ratio: 1;
+            border-radius: 4px; transition: all 0.3s;
+        }
+        .key-dot.active { background: #34d399; box-shadow: 0 0 6px rgba(52, 211, 153, 0.5); }
+        .key-dot.exhausted { background: #f87171; opacity: 0.5; }
+        .key-dot.standby { background: #818cf8; opacity: 0.3; }
+
+        /* Gemini Mode Display */
+        .gemini-mode-display {
+            background: linear-gradient(135deg, rgba(129, 140, 248, 0.1), rgba(167, 139, 250, 0.1));
+            border: 1px solid rgba(129, 140, 248, 0.2);
+            border-radius: 1rem; padding: 1rem;
+        }
+        .mode-indicator {
+            display: flex; align-items: center; gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 9999px;
+        }
+        .mode-dot {
+            width: 8px; height: 8px; border-radius: 50%;
+            animation: modePulse 2s ease-in-out infinite;
+        }
+        @keyframes modePulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
     </style>
 </head>
 <body class="safe-bottom">
@@ -325,20 +251,18 @@
                 <div class="absolute inset-0 border-4 border-indigo-500/20 rounded-full"></div>
                 <div class="absolute inset-0 border-4 border-t-indigo-400 rounded-full animate-spin"></div>
             </div>
-            <p class="text-xs font-bold text-indigo-400 uppercase tracking-[0.3em]">Loading....</p>
+            <p class="text-xs font-bold text-indigo-400 uppercase tracking-[0.3em]">memuat....</p>
         </div>
     </div>
 
     <!-- Auth Screen -->
     <div id="authScreen" class="fixed inset-0 z-[2000] flex items-center justify-center p-4 hidden" style="background: linear-gradient(135deg, #0c1222 0%, #162032 50%, #0c1222 100%);">
-        <div class="w-full max-w-sm glass-bright p-6 rounded-2xl text-center relative overflow-hidden">
-            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-indigo-500 to-transparent"></div>
-            
-            <div class="w-14 h-14 mx-auto mb-3 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg">
+        <div class="w-full max-w-sm glass-bright p-6 rounded-2xl text-center">
+            <div class="w-14 h-14 mx-auto mb-3 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
                 <i class="fa-solid fa-atom text-xl text-white"></i>
             </div>
-            <h1 class="text-xl font-black italic tracking-tight">VIRZA<span class="text-indigo-400">NEXUS</span></h1>
-            <p class="text-[9px] font-bold text-slate-400 uppercase tracking-[0.3em] mt-1 mb-5">Neural Access Protocol</p>
+            <h1 class="text-xl font-black italic tracking-tight">VIRZA <span class="text-indigo-400">NEXUS</span></h1>
+            <p class="text-[9px] font-bold text-slate-400 uppercase tracking-[0.3em] mt-1 mb-5">akses neura kontrol</p>
             
             <div class="space-y-2">
                 <input type="email" id="emailIn" class="w-full bg-slate-900/80 border border-indigo-500/30 p-3 rounded-xl outline-none focus:border-indigo-400 text-sm" placeholder="Email Address">
@@ -367,14 +291,16 @@
                 <div class="flex flex-col">
                     <div class="flex items-center gap-1.5">
                         <span id="gpsDot" class="w-1.5 h-1.5 rounded-full status-searching"></span>
-                        <span id="locTxt" class="text-[8px] font-bold text-slate-400 uppercase tracking-widest">CONNECTING</span>
+                        <span id="locTxt" class="text-[8px] font-bold text-slate-400 uppercase tracking-widest">memulai...</span>
                     </div>
                     <span id="timeDisplay" class="text-sm font-black tracking-tight">00:00:00</span>
                 </div>
             </div>
             
             <div class="flex items-center gap-2">
-                <span id="keyIndicator" class="text-[8px] font-bold text-slate-400 px-2 py-1 rounded-full bg-slate-800/50 border border-slate-700/50">0 Keys</span>
+                <button onclick="openHistoryPanel()" class="w-8 h-8 rounded-lg bg-indigo-500/20 flex items-center justify-center text-indigo-400 text-sm" title="History">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                </button>
                 <div onclick="toggleSidebar()" class="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center font-black text-xs cursor-pointer" id="userAvatar">V</div>
                 <button onclick="toggleSidebar()" class="w-8 h-8 rounded-lg bg-indigo-500/20 flex items-center justify-center text-indigo-400 text-sm">
                     <i class="fa-solid fa-sliders"></i>
@@ -390,9 +316,12 @@
                         <h2 class="text-lg md:text-2xl font-black tracking-tight uppercase">
                             Selamat Datang, <span id="userNameDisp" class="text-indigo-400">COMMANDER</span>
                         </h2>
-                        <div class="mt-2 flex items-center justify-center md:justify-start gap-2">
-                            <span id="apiStatusBadge" class="status-badge disconnected">
-                                <i class="fa-solid fa-circle-xmark text-[6px]"></i> No API Keys
+                        <div class="mt-2 flex items-center justify-center md:justify-start gap-2 flex-wrap">
+                            <span id="apiStatusBadge" class="status-badge connected">
+                                <i class="fa-solid fa-circle-check text-[6px]"></i> Gemini Ready
+                            </span>
+                            <span class="text-[8px] text-slate-400 px-2 py-1 rounded bg-slate-800/50 border border-slate-700/50">
+                                <i class="fa-solid fa-key mr-1"></i><span id="activeKeyCount">20</span> Keys
                             </span>
                         </div>
                     </div>
@@ -404,7 +333,7 @@
 
                     <div id="portalGrid" class="portal-grid pb-16"></div>
                 </div>
-            </div>
+           </div>
 
             <!-- Workspace -->
             <div id="workspaceView" class="hidden absolute inset-0 main-layout">
@@ -419,22 +348,27 @@
                                 <p id="portalDesc" class="text-[8px] text-slate-400">Active</p>
                             </div>
                         </div>
-                        <button onclick="toggleCanvasManually()" id="previewToggle" class="hidden px-2 py-1 rounded bg-indigo-500/20 text-[9px] font-bold text-indigo-400">
-                            <i class="fa-solid fa-eye mr-1"></i>Preview
-                        </button>
+                        <div class="flex items-center gap-2">
+                            <span id="currentModeIndicator" class="mode-indicator text-[9px]">
+                                <span class="mode-dot bg-green-400"></span>
+                                <span class="text-slate-300">Flash</span>
+                            </span>
+                            <button onclick="toggleCanvasManually()" id="previewToggle" class="hidden px-2 py-1 rounded bg-indigo-500/20 text-[9px] font-bold text-indigo-400">
+                                <i class="fa-solid fa-eye mr-1"></i>Preview
+                            </button>
+                        </div>
                     </div>
                     
                     <div id="chatBox" class="flex-1 overflow-y-auto p-3 space-y-2 no-scrollbar">
                         <div class="flex justify-start msg-enter">
                             <div class="max-w-[85%] bg-slate-800/80 border border-indigo-500/10 p-3 rounded-xl rounded-bl-sm text-xs">
                                 <p class="font-bold text-indigo-400 mb-1 text-[9px]">NEXUS AI</p>
-                                <p class="text-slate-200">Tambahkan API Key di Sidebar untuk memulai chat.</p>
+                                <p class="text-slate-200">Halo! Saya siap membantu.</p>
                             </div>
                         </div>
                     </div>
                     
                     <div class="chat-input-wrapper p-3 border-t border-indigo-500/10">
-                        <!-- Attachment Preview -->
                         <div id="attachmentPreviewArea" class="hidden attachment-preview">
                             <div class="flex items-center gap-3">
                                 <div id="attachmentPreviewIcon" class="w-10 h-10 rounded-lg bg-indigo-500/20 flex items-center justify-center text-indigo-400">
@@ -445,60 +379,30 @@
                                     <p id="attachmentPreviewSize" class="text-[10px] text-slate-400">1.2 MB</p>
                                 </div>
                                 <img id="attachmentPreviewImage" class="attachment-preview-image hidden" alt="preview">
-                                <button onclick="removeAttachment()" class="w-8 h-8 rounded-lg bg-red-500/20 text-red-400 flex items-center justify-center hover:bg-red-500/30">
+                                <button onclick="removeAttachment()" class="w-8 h-8 rounded-lg bg-red-500/20 text-red-400 flex items-center justify-center">
                                     <i class="fa-solid fa-xmark"></i>
                                 </button>
                             </div>
                         </div>
                         
                         <div class="flex items-end gap-2 max-w-4xl mx-auto">
-                            <!-- Attachment Button -->
                             <div class="relative">
                                 <button onclick="toggleAttachmentMenu()" id="attachmentBtn" class="attachment-btn" aria-label="Add attachment">
                                     <i class="fa-solid fa-plus"></i>
                                 </button>
-                                
-                                <!-- Attachment Menu -->
                                 <div id="attachmentMenu" class="attachment-menu">
-                                    <button onclick="addAttachment('image')">
-                                        <i class="fa-solid fa-image text-green-400"></i>
-                                        <div>
-                                            <span class="block">Foto / Gambar</span>
-                                            <span class="text-[9px] text-slate-400">JPG, PNG, GIF, WEBP</span>
-                                        </div>
-                                    </button>
-                                    <button onclick="addAttachment('video')">
-                                        <i class="fa-solid fa-video text-purple-400"></i>
-                                        <div>
-                                            <span class="block">Video</span>
-                                            <span class="text-[9px] text-slate-400">MP4, WEBM, MOV</span>
-                                        </div>
-                                    </button>
-                                    <button onclick="addAttachment('document')">
-                                        <i class="fa-solid fa-file-lines text-blue-400"></i>
-                                        <div>
-                                            <span class="block">Dokumen</span>
-                                            <span class="text-[9px] text-slate-400">PDF, DOC, TXT</span>
-                                        </div>
-                                    </button>
-                                    <button onclick="addAttachment('drive')">
-                                        <i class="fa-brands fa-google-drive text-yellow-400"></i>
-                                        <div>
-                                            <span class="block">Link Drive</span>
-                                            <span class="text-[9px] text-slate-400">Google Drive URL</span>
-                                        </div>
-                                    </button>
+                                    <button onclick="addAttachment('image')"><i class="fa-solid fa-image text-green-400"></i><div><span class="block">Foto / Gambar</span><span class="text-[9px] text-slate-400">JPG, PNG, GIF</span></div></button>
+                                    <button onclick="addAttachment('video')"><i class="fa-solid fa-video text-purple-400"></i><div><span class="block">Video</span><span class="text-[9px] text-slate-400">MP4, WEBM</span></div></button>
+                                    <button onclick="addAttachment('document')"><i class="fa-solid fa-file-lines text-blue-400"></i><div><span class="block">Dokumen</span><span class="text-[9px] text-slate-400">PDF, DOC, TXT</span></div></button>
+                                    <button onclick="addAttachment('drive')"><i class="fa-brands fa-google-drive text-yellow-400"></i><div><span class="block">Link Drive</span><span class="text-[9px] text-slate-400">Google Drive</span></div></button>
                                 </div>
                             </div>
-                            
                             <textarea id="mainInput" class="flex-1 bg-slate-800/80 border border-indigo-500/20 rounded-xl p-2.5 text-xs outline-none resize-none max-h-24 focus:border-indigo-400" placeholder="Ketik pesan..." rows="1" oninput="autoSize(this)" onkeydown="handleKeyDown(event)"></textarea>
-                            
                             <button id="sendBtn" onclick="sendMessage()" class="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg active:scale-95 transition">
                                 <i class="fa-solid fa-paper-plane text-xs"></i>
                             </button>
                         </div>
                         
-                        <!-- Speed Mode -->
                         <div class="flex items-center justify-center gap-2 mt-2 pt-2 border-t border-indigo-500/10">
                             <span class="text-[8px] font-bold text-slate-400 uppercase">Speed:</span>
                             <button onclick="setSpeedMode('fast')" class="speed-btn fast active" data-mode="fast">Fast</button>
@@ -518,6 +422,24 @@
         </main>
     </div>
 
+    <!-- History Panel -->
+    <div id="historyPanel" class="history-panel">
+        <div class="history-panel-content flex flex-col">
+            <div class="p-4 border-b border-indigo-500/20 flex items-center justify-between">
+                <h3 class="font-black text-sm uppercase"><i class="fa-solid fa-clock-rotate-left text-indigo-400 mr-2"></i>Neural History</h3>
+                <button onclick="closeHistoryPanel()" class="w-8 h-8 rounded-full bg-indigo-500/20 flex items-center justify-center text-indigo-400">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div id="historyPanelList" class="flex-1 overflow-y-auto p-4 no-scrollbar max-h-96">
+                <p class="text-[10px] text-slate-500 text-center py-8">Belum ada history</p>
+            </div>
+            <div class="p-4 border-t border-indigo-500/20">
+                <p class="text-[9px] text-slate-400 text-center">Klik item untuk load ke chat</p>
+            </div>
+        </div>
+    </div>
+
     <!-- Sidebar -->
     <aside id="sidebar" class="fixed inset-y-0 right-0 w-72 max-w-[85vw] translate-x-full glass-bright z-[2500] transition-transform duration-500 flex flex-col">
         <div class="flex justify-between items-center p-4 border-b border-indigo-500/10">
@@ -526,54 +448,76 @@
         </div>
 
         <div class="flex-1 overflow-y-auto no-scrollbar p-4 space-y-4">
-            <!-- API Keys Pool -->
+            <!-- Gemini Mode Display -->
+            <div class="gemini-mode-display">
+                <div class="flex items-center gap-2 mb-3">
+                    <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
+                        <i class="fa-solid fa-microchip text-white text-sm"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs font-bold text-slate-200">Gemini AI</p>
+                        <p class="text-[9px] text-green-400">Connected</p>
+                    </div>
+                </div>
+                
+                <div class="space-y-2">
+                    <div class="flex items-center justify-between">
+                        <span class="text-[10px] text-slate-400">Model:</span>
+                        <select id="modelSelect" onchange="updateModeDisplay()" class="bg-slate-900/80 border border-indigo-500/20 p-1.5 rounded-lg text-[10px] outline-none">
+                            <option value="gemini-1.5-flash">1.5 Flash</option>
+                            <option value="gemini-1.5-flash-8b">1.5 Flash-8B</option>
+                            <option value="gemini-1.5-pro">1.5 Pro</option>
+                            <option value="gemini-2.0-flash-exp">2.0 Flash</option>
+                        </select>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-[10px] text-slate-400">Mode:</span>
+                        <span id="speedModeDisplay" class="text-[10px] font-bold text-green-400">Fast</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Key Pool Status -->
             <div class="glass-card p-3 rounded-xl space-y-2">
                 <div class="flex items-center justify-between">
-                    <label class="text-xs font-bold text-slate-200 flex items-center gap-2">
-                        <i class="fa-solid fa-key text-indigo-400"></i> API Key Pool
-                    </label>
-                    <span class="text-[8px] text-slate-400 px-1.5 py-0.5 rounded bg-slate-800" id="keyCount">0 keys</span>
+                    <label class="text-xs font-bold text-slate-200"><i class="fa-solid fa-key text-indigo-400 mr-1"></i>API Key Pool</label>
+                    <span id="keyPoolStatus" class="text-[9px] text-green-400">20 Active</span>
                 </div>
                 
-                <p class="text-[9px] text-slate-400">Tambah beberapa key. Sistem otomatis ganti kalau ada yang kena limit.</p>
-                
-                <input type="text" id="newKeyInput" class="w-full bg-slate-900/80 border border-indigo-500/20 p-2 rounded-lg text-xs outline-none focus:border-indigo-400" placeholder="Paste API Key baru...">
-                <button onclick="addApiKey()" class="w-full py-2 bg-indigo-600 rounded-lg text-[10px] font-bold hover:bg-indigo-500 transition">+ Tambah Key</button>
-                
-                <div id="keyPoolList" class="space-y-1 max-h-32 overflow-y-auto no-scrollbar mt-2">
-                    <p class="text-[9px] text-slate-500 text-center py-2">Belum ada key</p>
+                <div class="key-status-grid" id="keyStatusGrid">
+                    <!-- Generated by JS -->
                 </div>
                 
-                <button onclick="clearAllKeys()" class="w-full py-1.5 bg-red-500/10 text-red-400 border border-red-500/20 rounded-lg text-[9px] font-bold hover:bg-red-500/20">Hapus Semua Key</button>
+                <div class="flex items-center justify-between text-[9px]">
+                    <span class="text-slate-400">Current: <span id="currentKeyNum" class="text-indigo-400 font-bold">1</span>/20</span>
+                    <span id="resetTimer" class="text-slate-500">Auto-reset: --</span>
+                </div>
+                
+                <div class="p-2 bg-green-500/10 border border-green-500/20 rounded-lg">
+                    <p class="text-[9px] text-green-300 flex items-center gap-1">
+                        <i class="fa-solid fa-rotate"></i>
+                        apikey di restart setiao 60 detik
+                    </p>
+                </div>
             </div>
 
-            <!-- Model Selection -->
-            <div class="glass-card p-3 rounded-xl space-y-2">
-                <label class="text-xs font-bold text-slate-200"><i class="fa-solid fa-microchip text-indigo-400 mr-1"></i> Model</label>
-                <select id="modelSelect" class="w-full bg-slate-900/80 border border-indigo-500/20 p-2 rounded-lg text-xs outline-none">
-                    <option value="gemini-1.5-flash">Gemini 1.5 Flash (Recommended)</option>
-                    <option value="gemini-1.5-flash-8b">Gemini 1.5 Flash-8B (Faster)</option>
-                    <option value="gemini-1.5-pro">Gemini 1.5 Pro</option>
-                    <option value="gemini-2.0-flash-exp">Gemini 2.0 Flash</option>
-                </select>
-            </div>
-
-            <!-- Rate Limit Info -->
+            <!-- Rate Info -->
             <div class="glass-card p-3 rounded-xl space-y-1">
-                <label class="text-xs font-bold text-slate-200"><i class="fa-solid fa-chart-bar text-indigo-400 mr-1"></i> Rate Limit Info</label>
+                <label class="text-xs font-bold text-slate-200"><i class="fa-solid fa-chart-bar text-indigo-400 mr-1"></i>Rate Limit</label>
                 <div class="text-[9px] text-slate-400 space-y-0.5">
-                    <p><span class="text-slate-300">RPM:</span> 15 request/menit/key</p>
-                    <p><span class="text-slate-300">RPD:</span> 1,500 request/hari/key</p>
-                    <p><span class="text-slate-300">TPM:</span> 1,000,000 token/menit</p>
+                    <p><span class="text-slate-300">Per Key:</span> 15 RPM / 1,500 RPD</p>
+                    <p><span class="text-slate-300">Total Pool:</span> 300 RPM / 30,000 RPD</p>
                 </div>
             </div>
 
-            <!-- History -->
+            <!-- Quick Actions -->
             <div class="space-y-2">
-                <label class="text-xs font-bold text-slate-200 px-1"><i class="fa-solid fa-clock text-indigo-400 mr-1"></i> History</label>
-                <div id="historyList" class="space-y-1.5 max-h-40 overflow-y-auto no-scrollbar">
-                    <p class="text-[9px] text-slate-500 text-center py-3">Belum ada history</p>
-                </div>
+                <button onclick="openHistoryPanel()" class="w-full py-2.5 bg-indigo-500/10 border border-indigo-500/20 rounded-lg text-xs font-bold text-indigo-400 flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-clock-rotate-left"></i> Buka History
+                </button>
+                <button onclick="clearCurrentChat()" class="w-full py-2.5 bg-slate-700/30 border border-slate-600/30 rounded-lg text-xs font-bold text-slate-400 flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-broom"></i> Clear Chat
+                </button>
             </div>
         </div>
 
@@ -588,7 +532,6 @@
     <div id="driveModal" class="fixed inset-0 z-[3000] bg-black/60 backdrop-blur-sm hidden items-center justify-center p-4">
         <div class="glass-bright p-4 rounded-xl w-full max-w-xs">
             <h4 class="font-bold text-sm mb-2"><i class="fa-brands fa-google-drive text-yellow-400 mr-2"></i>Link Drive</h4>
-            <p class="text-[10px] text-slate-400 mb-3">Paste link dari Google Drive yang mau di-share</p>
             <input type="url" id="driveLinkInput" class="w-full bg-slate-900/80 border border-indigo-500/20 p-2 rounded-lg text-sm mb-3" placeholder="https://drive.google.com/...">
             <div class="flex gap-2">
                 <button onclick="closeDriveModal()" class="flex-1 py-2 bg-slate-700/50 rounded-lg text-xs font-bold">Batal</button>
@@ -597,13 +540,12 @@
         </div>
     </div>
 
-    <!-- Hidden File Input -->
     <input type="file" id="fileInput" class="hidden" accept="image/*,video/*,.pdf,.doc,.docx,.txt" onchange="handleFileSelect(event)">
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc, getDoc, collection, addDoc, query, onSnapshot, serverTimestamp, orderBy, limit } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, query, onSnapshot, serverTimestamp, orderBy, limit, deleteDoc, doc, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBK-MehTTzURY5jT5stH363Y5_WE4iy-XA",
@@ -622,161 +564,114 @@
         let isLoginMode = true;
         let currentUser = null;
         let currentAttachment = null;
-        let autoPreviewEnabled = true;
         let currentSpeedMode = 'fast';
 
-        let apiKeyPool = [];
+        // ============================================================
+        // API KEY POOL - TERTANAM DI KODE (GANTI DENGAN KEY ASLI LU!)
+        // ============================================================
+        const EMBEDDED_API_KEYS = [
+            "GEMINI_API_KEY_1",   // Ganti dengan key asli
+            "GEMINI_API_KEY_2",   // Ganti dengan key asli
+            "GEMINI_API_KEY_3",   // Ganti dengan key asli
+            "GEMINI_API_KEY_4",   // Ganti dengan key asli
+            "GEMINI_API_KEY_5",   // Ganti dengan key asli
+            "GEMINI_API_KEY_6",   // Ganti dengan key asli
+            "GEMINI_API_KEY_7",   // Ganti dengan key asli
+            "GEMINI_API_KEY_8",   // Ganti dengan key asli
+            "GEMINI_API_KEY_9",   // Ganti dengan key asli
+            "GEMINI_API_KEY_10",  // Ganti dengan key asli
+            "GEMINI_API_KEY_11",  // Ganti dengan key asli
+            "GEMINI_API_KEY_12",  // Ganti dengan key asli
+            "GEMINI_API_KEY_13",  // Ganti dengan key asli
+            "GEMINI_API_KEY_14",  // Ganti dengan key asli
+            "GEMINI_API_KEY_15",  // Ganti dengan key asli
+            "GEMINI_API_KEY_16",  // Ganti dengan key asli
+            "GEMINI_API_KEY_17",  // Ganti dengan key asli
+            "GEMINI_API_KEY_18",  // Ganti dengan key asli
+            "GEMINI_API_KEY_19",  // Ganti dengan key asli
+            "GEMINI_API_KEY_20"   // Ganti dengan key asli
+        ];
+
         let currentKeyIndex = 0;
         let exhaustedKeys = new Set();
-
-        function loadKeyPool() {
-            const saved = localStorage.getItem('nexus_key_pool');
-            if (saved) {
-                apiKeyPool = JSON.parse(saved);
-                currentKeyIndex = 0;
-                exhaustedKeys = new Set(JSON.parse(localStorage.getItem('nexus_exhausted') || '[]'));
-            }
-            updateKeyUI();
-        }
-
-        function saveKeyPool() {
-            localStorage.setItem('nexus_key_pool', JSON.stringify(apiKeyPool));
-            localStorage.setItem('nexus_exhausted', JSON.stringify([...exhaustedKeys]));
-        }
+        let resetTimeout = null;
 
         function getNextAvailableKey() {
             const startIndex = currentKeyIndex;
             let attempts = 0;
             
-            while (attempts < apiKeyPool.length) {
-                const key = apiKeyPool[currentKeyIndex];
-                const keyId = key.substring(0, 8);
-                
-                if (!exhaustedKeys.has(keyId)) {
+            while (attempts < EMBEDDED_API_KEYS.length) {
+                const key = EMBEDDED_API_KEYS[currentKeyIndex];
+                if (!exhaustedKeys.has(currentKeyIndex)) {
+                    updateKeyUI();
                     return { key, index: currentKeyIndex };
                 }
-                
-                currentKeyIndex = (currentKeyIndex + 1) % apiKeyPool.length;
+                currentKeyIndex = (currentKeyIndex + 1) % EMBEDDED_API_KEYS.length;
                 attempts++;
             }
             
-            showToast('Semua key kena limit. Reset dalam 60 detik...', 'warning');
-            
-            setTimeout(() => {
-                exhaustedKeys.clear();
-                saveKeyPool();
-                updateKeyUI();
-                showToast('Key pool direset! Coba lagi.', 'success');
-            }, 60000);
-            
+            // All keys exhausted - start auto reset timer
+            showToast('Semua key limit. Auto-reset dalam 60 detik...', 'warning');
+            startResetTimer();
             return null;
         }
 
-        function markKeyExhausted(key) {
-            const keyId = key.substring(0, 8);
-            exhaustedKeys.add(keyId);
-            currentKeyIndex = (currentKeyIndex + 1) % apiKeyPool.length;
-            saveKeyPool();
+        function markKeyExhausted(index) {
+            exhaustedKeys.add(index);
+            currentKeyIndex = (index + 1) % EMBEDDED_API_KEYS.length;
             updateKeyUI();
             
-            const remaining = apiKeyPool.length - exhaustedKeys.size;
-            showToast(`Key kena limit. Sisa ${remaining} key aktif.`, 'warning');
+            const remaining = EMBEDDED_API_KEYS.length - exhaustedKeys.size;
+            showToast(`Key ${index + 1} limit. Sisa ${remaining} key aktif.`, 'warning');
         }
 
-        window.addApiKey = () => {
-            const input = document.getElementById('newKeyInput');
-            const key = input.value.trim();
+        function startResetTimer() {
+            if (resetTimeout) clearTimeout(resetTimeout);
             
-            if (!key) {
-                showToast('Masukkan API Key!', 'error');
-                return;
-            }
+            let seconds = 60;
+            const timerEl = document.getElementById('resetTimer');
             
-            if (!key.startsWith('AIza')) {
-                showToast('Format key tidak valid!', 'error');
-                return;
-            }
-            
-            if (apiKeyPool.includes(key)) {
-                showToast('Key sudah ada!', 'error');
-                return;
-            }
-            
-            apiKeyPool.push(key);
-            saveKeyPool();
-            updateKeyUI();
-            input.value = '';
-            showToast('API Key ditambahkan!', 'success');
-        };
-
-        window.removeKey = (index) => {
-            const keyId = apiKeyPool[index].substring(0, 8);
-            apiKeyPool.splice(index, 1);
-            exhaustedKeys.delete(keyId);
-            if (currentKeyIndex >= apiKeyPool.length) currentKeyIndex = 0;
-            saveKeyPool();
-            updateKeyUI();
-            showToast('Key dihapus', 'success');
-        };
-
-        window.clearAllKeys = () => {
-            if (confirm('Hapus semua API Key?')) {
-                apiKeyPool = [];
-                exhaustedKeys.clear();
-                currentKeyIndex = 0;
-                saveKeyPool();
-                updateKeyUI();
-                showToast('Semua key dihapus', 'success');
-            }
-        };
+            const interval = setInterval(() => {
+                seconds--;
+                if (timerEl) timerEl.textContent = `Auto-reset: ${seconds}s`;
+                if (seconds <= 0) {
+                    clearInterval(interval);
+                    exhaustedKeys.clear();
+                    currentKeyIndex = 0;
+                    updateKeyUI();
+                    showToast('Key pool direset!', 'success');
+                    if (timerEl) timerEl.textContent = 'Auto-reset: --';
+                }
+            }, 1000);
+        }
 
         function updateKeyUI() {
-            const list = document.getElementById('keyPoolList');
-            const count = document.getElementById('keyCount');
-            const indicator = document.getElementById('keyIndicator');
-            const badge = document.getElementById('apiStatusBadge');
+            const grid = document.getElementById('keyStatusGrid');
+            const status = document.getElementById('keyPoolStatus');
+            const currentNum = document.getElementById('currentKeyNum');
+            const activeCount = document.getElementById('activeKeyCount');
             
-            const activeCount = apiKeyPool.length - exhaustedKeys.size;
+            const active = EMBEDDED_API_KEYS.length - exhaustedKeys.size;
+            status.textContent = `${active} Active`;
+            activeCount.textContent = active;
+            currentNum.textContent = currentKeyIndex + 1;
             
-            count.textContent = `${activeCount}/${apiKeyPool.length} aktif`;
-            indicator.textContent = `${activeCount} Keys`;
-            
-            if (apiKeyPool.length === 0) {
-                list.innerHTML = '<p class="text-[9px] text-slate-500 text-center py-2">Belum ada key</p>';
-                badge.className = 'status-badge disconnected';
-                badge.innerHTML = '<i class="fa-solid fa-circle-xmark text-[6px]"></i> No Keys';
-            } else {
-                badge.className = 'status-badge connected';
-                badge.innerHTML = `<i class="fa-solid fa-circle-check text-[6px]"></i> ${activeCount} Keys Ready`;
-                
-                list.innerHTML = apiKeyPool.map((key, i) => {
-                    const keyId = key.substring(0, 8);
-                    const isExhausted = exhaustedKeys.has(keyId);
-                    const isActive = i === currentKeyIndex && !isExhausted;
-                    
-                    return `
-                        <div class="key-item ${isExhausted ? 'exhausted' : ''} ${isActive ? 'active' : ''}">
-                            <i class="fa-solid fa-key text-[10px] ${isExhausted ? 'text-red-400' : isActive ? 'text-green-400' : 'text-indigo-400'}"></i>
-                            <span class="flex-1 truncate">${keyId}...${key.slice(-4)}</span>
-                            ${isActive ? '<span class="text-[7px] text-green-400">AKTIF</span>' : ''}
-                            ${isExhausted ? '<span class="text-[7px] text-red-400">LIMIT</span>' : ''}
-                            <button onclick="removeKey(${i})" class="text-[10px] text-slate-500 hover:text-red-400">×</button>
-                        </div>
-                    `;
-                }).join('');
-            }
+            grid.innerHTML = EMBEDDED_API_KEYS.map((_, i) => {
+                let cls = 'key-dot standby';
+                if (i === currentKeyIndex && !exhaustedKeys.has(i)) cls = 'key-dot active';
+                else if (exhaustedKeys.has(i)) cls = 'key-dot exhausted';
+                return `<div class="${cls}" title="Key ${i + 1}"></div>`;
+            }).join('');
         }
 
         // Toast
         function showToast(message, type = 'success') {
             const existing = document.querySelector('.toast');
             if (existing) existing.remove();
-            
             const toast = document.createElement('div');
             toast.className = `toast ${type}`;
             toast.textContent = message;
             document.body.appendChild(toast);
-            
             setTimeout(() => toast.remove(), 3000);
         }
         window.showToast = showToast;
@@ -784,70 +679,107 @@
         // Speed Mode
         window.setSpeedMode = (mode) => {
             currentSpeedMode = mode;
-            
             document.querySelectorAll('.speed-btn').forEach(btn => {
                 btn.className = 'speed-btn inactive';
-                if (btn.dataset.mode === mode) {
-                    btn.className = `speed-btn ${mode} active`;
-                }
+                if (btn.dataset.mode === mode) btn.className = `speed-btn ${mode} active`;
             });
+            updateModeDisplay();
         };
 
-        // ==========================================
-        // ATTACHMENT FUNCTIONS
-        // ==========================================
-        
-        window.toggleAttachmentMenu = () => {
-            const menu = document.getElementById('attachmentMenu');
-            menu.classList.toggle('show');
-        };
-
-        window.addAttachment = (type) => {
-            const menu = document.getElementById('attachmentMenu');
-            menu.classList.remove('show');
+        window.updateModeDisplay = () => {
+            const display = document.getElementById('speedModeDisplay');
+            const colors = { fast: 'text-green-400', balanced: 'text-yellow-400', quality: 'text-red-400' };
+            display.className = `text-[10px] font-bold ${colors[currentSpeedMode]}`;
+            display.textContent = currentSpeedMode.charAt(0).toUpperCase() + currentSpeedMode.slice(1);
             
+            // Update header indicator
+            const indicator = document.getElementById('currentModeIndicator');
+            const model = document.getElementById('modelSelect').value;
+            const modelName = model.includes('pro') ? 'Pro' : model.includes('8b') ? '8B' : model.includes('2.0') ? '2.0' : 'Flash';
+            indicator.innerHTML = `<span class="mode-dot bg-${currentSpeedMode === 'fast' ? 'green' : currentSpeedMode === 'balanced' ? 'yellow' : 'red'}-400"></span><span class="text-slate-300">${modelName}</span>`;
+        };
+
+        // History Panel
+        window.openHistoryPanel = () => {
+            document.getElementById('historyPanel').classList.add('show');
+            loadFullHistory();
+        };
+        window.closeHistoryPanel = () => document.getElementById('historyPanel').classList.remove('show');
+
+        let allHistoryData = [];
+        
+        async function loadFullHistory() {
+            if (!currentUser) return;
+            const list = document.getElementById('historyPanelList');
+            list.innerHTML = '<p class="text-[10px] text-slate-500 text-center py-8">Memuat...</p>';
+            
+            try {
+                const q = query(collection(db, 'artifacts', 'virza-v12', 'users', currentUser.uid, 'history'), orderBy('timestamp', 'desc'), limit(100));
+                const snap = await getDocs(q);
+                
+                if (snap.empty) {
+                    list.innerHTML = '<p class="text-[10px] text-slate-500 text-center py-8">Belum ada history</p>';
+                    return;
+                }
+                
+                allHistoryData = [];
+                list.innerHTML = '';
+                
+                snap.forEach(doc => {
+                    const data = doc.data();
+                    data.id = doc.id;
+                    allHistoryData.push(data);
+                    
+                    const time = data.timestamp?.toDate?.() || new Date();
+                    const timeStr = time.toLocaleString('id-ID', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+                    
+                    const item = document.createElement('div');
+                    item.className = 'history-item';
+                    item.innerHTML = `
+                        <div class="flex items-center justify-between mb-1">
+                            <span class="text-[9px] font-bold text-indigo-400 uppercase">${data.portal || 'General'}</span>
+                            <span class="text-[8px] text-slate-500">${timeStr}</span>
+                        </div>
+                        <p class="text-[11px] text-slate-200">"${data.prompt}"</p>
+                        ${data.response ? `<p class="text-[9px] text-slate-400 mt-1 line-clamp-2">${data.response.substring(0, 100)}...</p>` : ''}
+                    `;
+                    item.onclick = () => {
+                        document.getElementById('mainInput').value = data.prompt;
+                        closeHistoryPanel();
+                        if (document.getElementById('workspaceView').classList.contains('hidden')) {
+                            enterPortal('chat', 'Smart AI', 'fa-comment', '#34d399');
+                        }
+                    };
+                    list.appendChild(item);
+                });
+            } catch (e) {
+                list.innerHTML = '<p class="text-[10px] text-red-400 text-center py-8">Gagal memuat history</p>';
+            }
+        }
+
+        // Attachments
+        window.toggleAttachmentMenu = () => document.getElementById('attachmentMenu').classList.toggle('show');
+        
+        window.addAttachment = (type) => {
+            document.getElementById('attachmentMenu').classList.remove('show');
             if (type === 'drive') {
                 document.getElementById('driveModal').classList.remove('hidden');
                 document.getElementById('driveModal').classList.add('flex');
-                document.getElementById('driveLinkInput').focus();
             } else {
-                const fileInput = document.getElementById('fileInput');
-                
-                if (type === 'image') {
-                    fileInput.accept = 'image/*';
-                } else if (type === 'video') {
-                    fileInput.accept = 'video/*';
-                } else {
-                    fileInput.accept = '.pdf,.doc,.docx,.txt,.xlsx,.ppt,.pptx';
-                }
-                
-                fileInput.click();
+                const fi = document.getElementById('fileInput');
+                fi.accept = type === 'image' ? 'image/*' : type === 'video' ? 'video/*' : '.pdf,.doc,.docx,.txt';
+                fi.click();
             }
         };
 
-        window.handleFileSelect = (event) => {
-            const file = event.target.files[0];
+        window.handleFileSelect = (e) => {
+            const file = e.target.files[0];
             if (!file) return;
-            
-            const type = file.type.startsWith('image') ? 'image' : 
-                         file.type.startsWith('video') ? 'video' : 'document';
-            
-            currentAttachment = {
-                type: type,
-                file: file,
-                name: file.name,
-                size: formatFileSize(file.size)
-            };
-            
+            const type = file.type.startsWith('image') ? 'image' : file.type.startsWith('video') ? 'video' : 'document';
+            currentAttachment = { type, file, name: file.name, size: (file.size / 1024).toFixed(1) + ' KB' };
             showAttachmentPreview();
-            showToast(`File ditambahkan: ${file.name}`, 'success');
+            showToast(`File: ${file.name}`, 'success');
         };
-
-        function formatFileSize(bytes) {
-            if (bytes < 1024) return bytes + ' B';
-            if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
-            return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
-        }
 
         function showAttachmentPreview() {
             const area = document.getElementById('attachmentPreviewArea');
@@ -862,23 +794,13 @@
                 btn.classList.add('active');
                 name.textContent = currentAttachment.name;
                 size.textContent = currentAttachment.size;
-
-        // Reset image
                 img.classList.add('hidden');
-                img.src = '';
                 
-                if (currentAttachment.type === 'image') {
+                if (currentAttachment.type === 'image' && currentAttachment.file) {
                     icon.innerHTML = '<i class="fa-solid fa-image"></i>';
-                    
-                    // Show image preview
-                    if (currentAttachment.file) {
-                        const reader = new FileReader();
-                        reader.onload = (e) => {
-                            img.src = e.target.result;
-                            img.classList.remove('hidden');
-                        };
-                        reader.readAsDataURL(currentAttachment.file);
-                    }
+                    const reader = new FileReader();
+                    reader.onload = (e) => { img.src = e.target.result; img.classList.remove('hidden'); };
+                    reader.readAsDataURL(currentAttachment.file);
                 } else if (currentAttachment.type === 'video') {
                     icon.innerHTML = '<i class="fa-solid fa-video"></i>';
                 } else if (currentAttachment.type === 'drive') {
@@ -893,33 +815,12 @@
             }
         }
 
-        window.removeAttachment = () => {
-            currentAttachment = null;
-            showAttachmentPreview();
-            document.getElementById('fileInput').value = '';
-            showToast('Attachment dihapus', 'success');
-        };
-
-        window.closeDriveModal = () => {
-            document.getElementById('driveModal').classList.add('hidden');
-            document.getElementById('driveModal').classList.remove('flex');
-            document.getElementById('driveLinkInput').value = '';
-        };
-
+        window.removeAttachment = () => { currentAttachment = null; showAttachmentPreview(); document.getElementById('fileInput').value = ''; };
+        window.closeDriveModal = () => { document.getElementById('driveModal').classList.add('hidden'); document.getElementById('driveLinkInput').value = ''; };
         window.submitDriveLink = () => {
             const link = document.getElementById('driveLinkInput').value.trim();
-            if (!link) {
-                showToast('Masukkan link!', 'error');
-                return;
-            }
-            
-            currentAttachment = {
-                type: 'drive',
-                name: 'Google Drive Link',
-                url: link,
-                size: 'Link'
-            };
-            
+            if (!link) return;
+            currentAttachment = { type: 'drive', name: 'Google Drive Link', url: link, size: 'Link' };
             showAttachmentPreview();
             closeDriveModal();
             showToast('Link Drive ditambahkan!', 'success');
@@ -931,17 +832,13 @@
             const authScreen = document.getElementById('authScreen');
             const mainUI = document.getElementById('mainUI');
             
-            if(user) {
+            if (user) {
                 currentUser = user;
-                const displayName = user.displayName || user.email.split('@')[0];
-                document.getElementById('userNameDisp').innerText = displayName.toUpperCase();
-                document.getElementById('userAvatar').innerText = displayName.charAt(0).toUpperCase();
-
-                loadKeyPool();
-
+                document.getElementById('userNameDisp').innerText = (user.displayName || user.email.split('@')[0]).toUpperCase();
+                document.getElementById('userAvatar').innerText = (user.displayName || user.email.split('@')[0]).charAt(0).toUpperCase();
+                updateKeyUI();
                 authScreen.style.display = 'none';
                 mainUI.style.display = 'flex';
-                loadHistory();
                 
                 setTimeout(() => {
                     document.getElementById('gpsDot').className = 'w-1.5 h-1.5 rounded-full status-online';
@@ -951,7 +848,6 @@
                 authScreen.style.display = 'flex';
                 mainUI.style.display = 'none';
             }
-            
             loader.style.opacity = '0';
             setTimeout(() => loader.style.display = 'none', 500);
         });
@@ -959,106 +855,70 @@
         window.handleAuth = () => {
             const email = document.getElementById('emailIn').value.trim();
             const pass = document.getElementById('passIn').value;
-            if(!email || !pass) { showToast('Isi email & password!', 'error'); return; }
-            
-            if(isLoginMode) {
-                signInWithEmailAndPassword(auth, email, pass).catch(e => showToast(e.message, 'error'));
-            } else {
-                createUserWithEmailAndPassword(auth, email, pass).catch(e => showToast(e.message, 'error'));
-            }
+            if (!email || !pass) { showToast('Isi email & password!', 'error'); return; }
+            if (isLoginMode) signInWithEmailAndPassword(auth, email, pass).catch(e => showToast(e.message, 'error'));
+            else createUserWithEmailAndPassword(auth, email, pass).catch(e => showToast(e.message, 'error'));
         };
 
         window.handleGoogle = () => signInWithPopup(auth, provider);
         window.handleLogout = () => signOut(auth);
-        
         window.toggleAuthMode = () => {
             isLoginMode = !isLoginMode;
             document.getElementById('authToggleBtn').innerText = isLoginMode ? "Belum ada akun? Daftar" : "Sudah punya akun? Login";
             document.getElementById('authBtnText').innerText = isLoginMode ? "Enter" : "Daftar";
         };
 
-        async function loadHistory() {
-            if(!currentUser) return;
-            const list = document.getElementById('historyList');
-            
-            try {
-                const q = query(collection(db, 'artifacts', 'virza-v12', 'users', currentUser.uid, 'history'), orderBy('timestamp', 'desc'), limit(10));
-                onSnapshot(q, (snap) => {
-                    if(snap.empty) {
-                        list.innerHTML = '<p class="text-[9px] text-slate-500 text-center py-3">Belum ada history</p>';
-                        return;
-                    }
-                    list.innerHTML = "";
-                    snap.forEach(d => {
-                        const data = d.data();
-                        const time = data.timestamp?.toDate?.() || new Date();
-                        const card = document.createElement('div');
-                        card.className = 'history-card';
-                        card.onclick = () => { document.getElementById('mainInput').value = data.prompt; toggleSidebar(); };
-                        card.innerHTML = `<p class="text-[8px] text-indigo-400 font-bold">${data.portal}</p><p class="text-[9px] text-slate-300 truncate">"${data.prompt}"</p>`;
-                        list.appendChild(card);
-                    });
-                });
-            } catch(e) {}
-        }
+        // Clear Chat
+        window.clearCurrentChat = () => {
+            document.getElementById('chatBox').innerHTML = `<div class="flex justify-start msg-enter"><div class="max-w-[85%] bg-slate-800/80 border border-indigo-500/10 p-3 rounded-xl rounded-bl-sm text-xs"><p class="font-bold text-indigo-400 mb-1 text-[9px]">NEXUS AI</p><p class="text-slate-200">Chat cleared. Siap membantu!</p></div></div>`;
+            showToast('Chat cleared!', 'success');
+        };
 
-        // ==========================================
-        // SEND MESSAGE
-        // ==========================================
+        // Send Message
         window.sendMessage = async () => {
             const input = document.getElementById('mainInput');
             const prompt = input.value.trim();
-            
-            if(!prompt && !currentAttachment) return;
-            
-            if(apiKeyPool.length === 0) {
-                showToast('Tambah API Key dulu!', 'error');
-                toggleSidebar();
-                return;
-            }
+            if (!prompt && !currentAttachment) return;
 
             const keyData = getNextAvailableKey();
             if (!keyData) return;
             
-            const key = keyData.key;
+            const { key, index } = keyData;
             const chat = document.getElementById('chatBox');
             const sendBtn = document.getElementById('sendBtn');
             
-            // Build prompt
             let fullPrompt = prompt;
             if (currentAttachment) {
-                if (currentAttachment.type === 'drive') {
-                    fullPrompt = `[User shared Google Drive Link: ${currentAttachment.url}]\n\n${prompt}`;
-                } else {
-                    fullPrompt = `[User attached file: ${currentAttachment.name} (${currentAttachment.size})]\n\nUser's message: ${prompt}\n\n(Note: You cannot see the actual file content, but respond helpfully to their message)`;
-                }
+                fullPrompt = currentAttachment.type === 'drive' 
+                    ? `[Drive Link: ${currentAttachment.url}]\n\n${prompt}` 
+                    : `[File: ${currentAttachment.name}]\n\n${prompt}`;
             }
             
-            // User message with attachment preview
             let userMsgHtml = `<div class="flex justify-end msg-enter"><div class="max-w-[80%] bg-gradient-to-br from-indigo-600 to-purple-600 p-2.5 rounded-xl rounded-br-sm text-xs">`;
-            
-            if (currentAttachment) {
-                if (currentAttachment.type === 'image' && currentAttachment.file) {
-                    const imgData = await readFileAsDataURL(currentAttachment.file);
-                    userMsgHtml += `<img src="${imgData}" class="max-w-full rounded-lg mb-2 max-h-32 object-cover">`;
-                }
-                userMsgHtml += `<div class="text-[9px] opacity-70 mb-1"><i class="fa-solid fa-paperclip mr-1"></i>${currentAttachment.name}</div>`;
+            if (currentAttachment?.type === 'image' && currentAttachment.file) {
+                const imgData = await readFileAsDataURL(currentAttachment.file);
+                userMsgHtml += `<img src="${imgData}" class="max-w-full rounded-lg mb-2 max-h-32 object-cover">`;
             }
-            
+            if (currentAttachment) userMsgHtml += `<div class="text-[9px] opacity-70 mb-1"><i class="fa-solid fa-paperclip mr-1"></i>${currentAttachment.name}</div>`;
             userMsgHtml += `${prompt}</div></div>`;
             chat.innerHTML += userMsgHtml;
             
-            input.value = "";
+            input.value = '';
             input.style.height = 'auto';
             removeAttachment();
             chat.scrollTop = chat.scrollHeight;
             
-            // Save
-            if(currentUser) {
-                try { await addDoc(collection(db, 'artifacts', 'virza-v12', 'users', currentUser.uid, 'history'), { prompt, portal: window.activePortal || 'General', timestamp: serverTimestamp() }); } catch(e) {}
+            // Save history
+            let responseText = '';
+            if (currentUser) {
+                try {
+                    const docRef = await addDoc(collection(db, 'artifacts', 'virza-v12', 'users', currentUser.uid, 'history'), { 
+                        prompt, portal: window.activePortal || 'General', timestamp: serverTimestamp(), response: '' 
+                    });
+                    window.currentHistoryId = docRef.id;
+                } catch (e) {}
             }
 
-            // Typing
             const typingId = 't' + Date.now();
             chat.innerHTML += `<div id="${typingId}" class="flex justify-start msg-enter"><div class="bg-slate-800/80 p-2.5 rounded-xl"><div class="typing-indicator"><span></span><span></span><span></span></div></div></div>`;
             chat.scrollTop = chat.scrollHeight;
@@ -1069,33 +929,36 @@
                 
                 const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`, {
                     method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({ 
-                        contents: [{ parts: [{ text: fullPrompt }] }], 
-                        generationConfig: { temperature: 0.7, maxOutputTokens: 2048 } 
-                    })
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ contents: [{ parts: [{ text: fullPrompt }] }], generationConfig: { temperature: 0.7, maxOutputTokens: 2048 } })
                 });
                 
                 document.getElementById(typingId)?.remove();
                 const data = await res.json();
                 
                 if (data.error) {
-                    if (data.error.message?.includes('quota') || data.error.message?.includes('RESOURCE_EXHAUSTED') || data.error.status === 'RESOURCE_EXHAUSTED') {
-                        markKeyExhausted(key);
-                        showToast('Key kena limit, coba key lain...', 'warning');
+                    if (data.error.message?.includes('quota') || data.error.status === 'RESOURCE_EXHAUSTED') {
+                        markKeyExhausted(index);
+                        showToast('Key limit, rotate ke key lain...', 'warning');
                         sendBtn.disabled = false;
-                        setTimeout(() => sendMessage(), 500);
+                        setTimeout(() => sendMessage(), 300);
                         return;
                     }
                     throw new Error(data.error.message || 'API Error');
+            }
+
+            responseText = data.candidates?.[0]?.content?.parts?.[0]?.text || "No response";
+                chat.innerHTML += `<div class="flex justify-start msg-enter"><div class="max-w-[85%] bg-slate-800/80 border border-indigo-500/10 p-2.5 rounded-xl text-xs"><p class="font-bold text-indigo-400 text-[9px] mb-1">NEXUS AI</p><div class="text-slate-200">${responseText.replace(/\n/g, '<br>')}</div></div></div>`;
+                
+                // Update history with response
+                if (currentUser && window.currentHistoryId) {
+                    try {
+                        await updateDoc(doc(db, 'artifacts', 'virza-v12', 'users', currentUser.uid, 'history', window.currentHistoryId), { response: responseText });
+                    } catch (e) {}
                 }
                 
-                const text = data.candidates?.[0]?.content?.parts?.[0]?.text || "No response";
-                chat.innerHTML += `<div class="flex justify-start msg-enter"><div class="max-w-[85%] bg-slate-800/80 border border-indigo-500/10 p-2.5 rounded-xl text-xs"><p class="font-bold text-indigo-400 text-[9px] mb-1">NEXUS AI</p><div class="text-slate-200">${text.replace(/\n/g, '<br>')}</div></div></div>`;
-                
-                // HTML preview
-                const htmlMatch = text.match(/```html?\s*([\s\S]*?)```/);
-                if(htmlMatch && autoPreviewEnabled) {
+                const htmlMatch = responseText.match(/```html?\s*([\s\S]*?)```/);
+                if (htmlMatch) {
                     toggleCanvas(true);
                     document.getElementById('artifactFrame').src = URL.createObjectURL(new Blob([htmlMatch[1].trim()], { type: 'text/html' }));
                 }
@@ -1110,44 +973,29 @@
         };
 
         function readFileAsDataURL(file) {
-            return new Promise((resolve, reject) => {
+            return new Promise((resolve) => {
                 const reader = new FileReader();
-                reader.onload = () => resolve(reader.result);
-                reader.onerror = reject;
+                reader.onload = (e) => resolve(e.target.result);
                 reader.readAsDataURL(file);
             });
         }
 
         window.toggleCanvas = (show) => {
-            const panel = document.getElementById('previewPanel');
-            const layout = document.getElementById('workspaceView');
-            panel.classList.toggle('hidden', !show);
-            layout.classList.toggle('split-active', show);
+            document.getElementById('previewPanel').classList.toggle('hidden', !show);
+            document.getElementById('workspaceView').classList.toggle('split-active', show);
         };
-        
-        window.toggleCanvasManually = () => {
-            const panel = document.getElementById('previewPanel');
-            toggleCanvas(panel.classList.contains('hidden'));
-        };
+        window.toggleCanvasManually = () => toggleCanvas(document.getElementById('previewPanel').classList.contains('hidden'));
+
+        // Initialize
+        updateKeyUI();
+        updateModeDisplay();
     </script>
 
     <script>
-        // UI Helpers
-        function autoSize(el) { 
-            el.style.height = 'auto'; 
-            el.style.height = Math.min(el.scrollHeight, 96) + 'px'; 
-        }
-        
-        function handleKeyDown(e) { 
-            if (e.key === 'Enter' && !e.shiftKey) { 
-                e.preventDefault(); 
-                sendMessage(); 
-            } 
-        }
-
+        function autoSize(el) { el.style.height = 'auto'; el.style.height = Math.min(el.scrollHeight, 96) + 'px'; }
+        function handleKeyDown(e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); } }
         setInterval(() => document.getElementById('timeDisplay').innerText = new Date().toLocaleTimeString('id-ID', { hour12: false }), 1000);
 
-        // Portals
         const demons = [
             { id: 'coding', name: 'Architect', icon: 'fa-code', color: '#818cf8' },
             { id: 'image', name: 'Image HD', icon: 'fa-image', color: '#f472b6' },
@@ -1176,9 +1024,7 @@
         function renderPortals(data) {
             document.getElementById('portalGrid').innerHTML = (data || demons).map(p => `
                 <div onclick="enterPortal('${p.id}', '${p.name}', '${p.icon}', '${p.color}')" class="p-card p-2.5 flex flex-col items-center gap-1.5 text-center">
-                    <div class="w-9 h-9 rounded-lg flex items-center justify-center text-sm" style="background: ${p.color}20; color: ${p.color};">
-                        <i class="fa-solid ${p.icon}"></i>
-                    </div>
+                    <div class="w-9 h-9 rounded-lg flex items-center justify-center text-sm" style="background: ${p.color}20; color: ${p.color};"><i class="fa-solid ${p.icon}"></i></div>
                     <span class="text-[9px] font-bold uppercase tracking-wider text-slate-200">${p.name}</span>
                 </div>
             `).join('');
@@ -1195,15 +1041,7 @@
             document.getElementById('portalIcon').innerHTML = `<i class="fa-solid ${icon}"></i>`;
             document.getElementById('portalIcon').style.color = color;
             document.getElementById('portalIcon').style.background = color + '20';
-            
-            // Show preview button for web/coding portals
-            const previewBtn = document.getElementById('previewToggle');
-            if (id === 'web' || id === 'coding') {
-                previewBtn.classList.remove('hidden');
-            } else {
-                previewBtn.classList.add('hidden');
-            }
-            
+            document.getElementById('previewToggle').classList.toggle('hidden', !['web', 'coding'].includes(id));
             setTimeout(() => document.getElementById('mainInput').focus(), 100);
         };
 
@@ -1212,17 +1050,14 @@
             document.getElementById('workspaceView').classList.add('hidden');
             document.getElementById('backToLobby').classList.add('hidden');
             toggleCanvas(false);
-            document.getElementById('chatBox').innerHTML = `<div class="flex justify-start msg-enter"><div class="max-w-[85%] bg-slate-800/80 border border-indigo-500/10 p-3 rounded-xl text-xs"><p class="font-bold text-indigo-400 mb-1 text-[9px]">NEXUS AI</p><p class="text-slate-200">Tambahkan API Key di Sidebar untuk memulai chat.</p></div></div>`;
         };
 
         window.toggleSidebar = () => document.getElementById('sidebar').classList.toggle('translate-x-full');
-        
         window.filterPortals = () => {
             const q = document.getElementById('pSearch').value.toLowerCase();
             renderPortals(demons.filter(p => p.name.toLowerCase().includes(q) || p.id.toLowerCase().includes(q)));
         };
 
-        // Close menus on outside click
         document.addEventListener('click', (e) => {
             if (!e.target.closest('.attachment-btn') && !e.target.closest('.attachment-menu')) {
                 document.getElementById('attachmentMenu').classList.remove('show');
