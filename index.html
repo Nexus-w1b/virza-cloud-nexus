@@ -7,43 +7,77 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root { --accent: #6366f1; --bg: #020617; }
+        :root { --accent: #6366f1; --bg: #020617; --neon: #818cf8; }
         body { background: var(--bg); color: #f8fafc; font-family: 'Plus Jakarta Sans', sans-serif; overflow: hidden; }
+        
         .glass { background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        
+        .portal-card { 
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            cursor: pointer; 
+            background: rgba(30, 41, 59, 0.3); 
+            border: 1px solid rgba(255, 255, 255, 0.05); 
+            border-radius: 2rem;
+            position: relative;
+        }
+        .portal-card:hover { 
+            transform: translateY(-12px) scale(1.03); 
+            background: rgba(99, 102, 241, 0.15);
+            border-color: var(--neon);
+            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.25);
+        }
+
         .workspace-layout { display: flex; flex-direction: column; height: calc(100vh - 100px); }
-        @media (min-width: 1024px) { .workspace-layout { display: grid; grid-template-columns: 450px 1fr; } }
-        
-        .portal-card { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; background: rgba(30, 41, 59, 0.3); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 2rem; }
-        .portal-card:hover { border-color: var(--accent); transform: translateY(-3px); background: rgba(99, 102, 241, 0.1); }
-        
-        #canvasFrame { background: white; border-radius: 1.5rem; width: 100%; height: 100%; border: none; }
-        .sidebar-settings { transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1); background: #020617; z-index: 1200; box-shadow: -20px 0 60px rgba(0,0,0,0.8); }
-        
-        .history-item { transition: all 0.2s; border-left: 2px solid transparent; }
-        .history-item:hover { background: rgba(99, 102, 241, 0.1); border-left-color: var(--accent); }
-        
+        @media (min-width: 1024px) { 
+            .workspace-layout.with-canvas { display: grid; grid-template-columns: 1fr 500px; } 
+        }
+        #canvasContainer { display: none; }
+        #canvasContainer.active { display: block; animation: slideIn 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards; }
+
+        @keyframes slideIn { from { opacity: 0; transform: translateX(50px); } to { opacity: 1; transform: translateX(0); }
+                            
+        .cyber-loader {
+            width: 120px; height: 120px; border-radius: 50%;
+            border: 2px solid transparent; border-top-color: var(--accent);
+            animation: spin 1.5s linear infinite; position: relative;
+        }
+        .cyber-loader::after {
+            content: ''; position: absolute; inset: 15px;
+            border-radius: 50%; border: 2px solid transparent;
+            border-bottom-color: var(--neon); animation: spin 2s linear infinite reverse;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
         .no-scrollbar::-webkit-scrollbar { display: none; }
-        .loading-screen { position: fixed; inset: 0; background: #020617; z-index: 2000; display: flex; flex-direction: column; align-items: center; justify-content: center; }
         
-        .gps-badge { font-size: 8px; font-weight: 800; padding: 2px 8px; border-radius: 4px; display: inline-flex; align-items: center; gap: 4px; }
+        .auth-toggle { cursor: pointer; transition: color 0.3s; }
+        .auth-toggle:hover { color: var(--accent); }
     </style>
 </head>
 <body class="h-screen flex flex-col">
 
-    <!-- Loading Screen -->
-    <div id="loadingScreen" class="loading-screen">
-        <div class="w-16 h-16 border-4 border-indigo-500/20 border-t-indigo-500 rounded-full animate-spin"></div>
-        <h2 class="mt-6 text-xs font-black italic tracking-tighter uppercase">NEXUS <span class="text-indigo-500">V12</span></h2>
+    <audio id="clickSound" src="https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3" preload="auto"></audio>
+    <div id="loadingScreen" class="fixed inset-0 bg-[#020617] z-[2000] flex flex-col items-center justify-center transition-opacity duration-1000">
+        <div class="cyber-loader"></div>
+        <div class="mt-10 text-center">
+            <h2 class="text-2xl font-black italic tracking-widest uppercase">VIRZA <span class="text-indigo-500">NEXUS</span></h2>
+            <p class="text-[9px] font-bold text-indigo-400 mt-3 tracking-[0.5em] animate-pulse uppercase italic">Synchronizing Neural Gates...</p>
+        </div>
     </div>
 
-    <!-- Auth Page -->
     <div id="authPage" class="fixed inset-0 z-[1100] hidden flex items-center justify-center p-6 bg-slate-950">
-        <div class="w-full max-w-md glass p-10 rounded-[40px]">
-            <h1 class="text-2xl font-black italic text-center mb-8 uppercase">VIRZA <span class="text-indigo-500">NEXUS</span></h1>
-            <div class="space-y-4">
-                <input type="email" id="email" class="w-full p-4 bg-white/5 rounded-2xl border border-white/10 text-sm outline-none focus:border-indigo-500" placeholder="Email">
-                <input type="password" id="password" class="w-full p-4 bg-white/5 rounded-2xl border border-white/10 text-sm outline-none focus:border-indigo-500" placeholder="Password">
-                <button onclick="handleAuth()" class="w-full py-4 bg-indigo-600 rounded-2xl font-black text-xs uppercase tracking-widest">Akses dashboard</button>
+        <div class="w-full max-w-md glass p-10 rounded-[45px] text-center border-indigo-500/20 shadow-2xl">
+            <div id="authContainer">
+            </div>
+            
+            <div class="mt-8 pt-8 border-t border-white/5 space-y-4">
+                <button onclick="playClick(); handleGoogleLogin();" class="w-full py-4 bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl flex items-center justify-center gap-3 transition active:scale-95">
+                    <img src="https://www.gstatic.com/images/branding/product/1x/googleg_48dp.png" class="w-5 h-5" alt="Google">
+                    <span class="text-[10px] font-black uppercase tracking-widest">Neural Google Link</span>
+                </button>
+                <p id="authSwitchText" class="text-[9px] font-bold text-slate-500 uppercase tracking-widest">
+                    Belum punya akun? <span onclick="toggleAuthMode()" class="text-indigo-400 auth-toggle">Daftar Protocol Baru</span>
+                </p>
             </div>
         </div>
     </div>
@@ -51,103 +85,106 @@
     <div id="appContent" class="hidden h-full flex flex-col">
         <header class="w-full p-6 flex justify-between items-center z-50 border-b border-white/5 h-24 glass">
             <div class="flex items-center gap-4">
-                <button id="backBtn" onclick="goToLobby()" class="hidden w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center border border-white/10">
+                <button id="backBtn" onclick="playClick(); goToLobby();" class="hidden w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center border border-white/10 transition hover:bg-indigo-500/20">
                     <i class="fa-solid fa-arrow-left text-xs"></i>
                 </button>
                 <div class="flex flex-col">
                     <div class="flex items-center gap-2">
-                        <div id="gpsStatus" class="gps-badge bg-red-500/10 text-red-500">
-                            <i class="fa-solid fa-location-crosshairs"></i> GPS OFFLINE
+                        <div id="gpsStatus" class="gps-badge px-2 py-1 bg-red-500/10 text-red-500 rounded text-[8px] font-black uppercase tracking-widest">
+                            <i class="fa-solid fa-location-crosshairs mr-1"></i> GPS OFFLINE
                         </div>
-                        <span id="locationName" class="text-[9px] font-black text-slate-500 uppercase tracking-widest">Searching...</span>
+                        <span id="locationName" class="text-[9px] font-black text-slate-500 uppercase tracking-widest italic">SEARCHING...</span>
                     </div>
-                    <div id="fullDate" class="text-[9px] font-black text-indigo-400 uppercase tracking-widest mt-1">MEMUAT...</div>
+                    <div id="fullDate" class="text-[9px] font-black text-indigo-400 uppercase tracking-widest mt-1">...</div>
                     <span id="liveClock" class="text-xl font-black italic tracking-tighter">00:00:00</span>
                 </div>
             </div>
 
             <div class="flex items-center gap-4">
-                <div onclick="toggleSidebar()" class="w-11 h-11 rounded-full bg-indigo-600 flex items-center justify-center font-black border-2 border-white/10 cursor-pointer overflow-hidden shadow-lg shadow-indigo-500/20 active:scale-90 transition">
+                <div onclick="playClick(); toggleSidebar();" class="w-11 h-11 rounded-full bg-indigo-600 flex items-center justify-center font-black border-2 border-white/10 cursor-pointer overflow-hidden shadow-lg shadow-indigo-500/20 active:scale-90 transition">
                     <span id="userInitial">V</span>
                 </div>
-                <button onclick="toggleSidebar()" class="w-11 h-11 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-slate-400">
+                <button onclick="playClick(); toggleSidebar();" class="w-11 h-11 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:text-white transition">
                     <i class="fa-solid fa-sliders-h"></i>
                 </button>
             </div>
         </header>
         
         <main class="flex-1 overflow-hidden relative">
-            <div id="lobby" class="absolute inset-0 overflow-y-auto p-6 no-scrollbar">
-                <div class="max-w-6xl mx-auto py-4 space-y-6 text-center">
-                    <h2 class="text-4xl font-black italic tracking-tighter">HI, <span id="welcomeName" class="text-indigo-500 uppercase">COMMANDER</span></h2>
+            <div id="lobby" class="absolute inset-0 overflow-y-auto p-8 no-scrollbar">
+                <div class="max-w-6xl mx-auto py-12 space-y-6 text-center">
+                    <h2 class="text-6xl font-black italic tracking-tighter">HI, <span id="welcomeName" class="text-indigo-500 uppercase">COMMANDER</span></h2>
+                    <p class="text-[10px] font-bold text-slate-600 uppercase tracking-[0.6em] mb-10">Select Dimensional Portal to Initialize</p>
                     <div class="relative max-w-xl mx-auto">
                         <i class="fa-solid fa-search absolute left-6 top-1/2 -translate-y-1/2 text-slate-500"></i>
-                        <input type="text" id="portalSearch" oninput="filterPortals()" class="w-full bg-white/5 border border-white/10 p-5 pl-14 rounded-full text-sm outline-none focus:border-indigo-500" placeholder="Cari Dimensi...">
+                        <input type="text" id="portalSearch" oninput="filterPortals()" class="w-full bg-white/5 border border-white/10 p-6 pl-14 rounded-full text-sm outline-none focus:border-indigo-500 transition shadow-inner" placeholder="Pencarian Dimensi...">
                     </div>
                 </div>
-                <div id="portalGrid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 mt-8 max-w-6xl mx-auto"></div>
+                <div id="portalGrid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 mt-10 max-w-6xl mx-auto pb-32"></div>
             </div>
+
             <div id="workspace" class="hidden absolute inset-0 workspace-layout">
                 <div class="flex flex-col border-r border-white/5 bg-slate-950/50">
-                    <div id="chatHistory" class="flex-1 overflow-y-auto p-6 space-y-4 no-scrollbar"></div>
-                    <div class="p-4 bg-slate-900 border-t border-white/5 space-y-3">
-                        <textarea id="aiInput" class="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-xs text-white placeholder-slate-600 outline-none focus:border-indigo-500 resize-none" rows="2" placeholder="Input neural data..."></textarea>
-                        <button onclick="executeAI()" class="w-full py-4 bg-indigo-600 rounded-xl font-black text-[10px] uppercase tracking-widest active:scale-95 transition">Execute Portal</button>
+                    <div id="chatHistory" class="flex-1 overflow-y-auto p-8 space-y-6 no-scrollbar"></div>
+                    <div class="p-8 bg-slate-950 border-t border-white/5 space-y-4">
+                        <div class="flex gap-4 items-center">
+                            <textarea id="aiInput" class="flex-1 bg-white/5 border border-white/10 rounded-[2rem] p-6 text-sm text-white placeholder-slate-600 outline-none focus:border-indigo-500 transition resize-none no-scrollbar" rows="1" placeholder="Type neural instruction..."></textarea>
+                            <button onclick="playClick(); executeAI();" class="w-16 h-16 bg-indigo-600 rounded-full flex items-center justify-center shadow-2xl shadow-indigo-600/40 hover:bg-indigo-500 transition active:scale-90">
+                                <i class="fa-solid fa-paper-plane text-sm"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
-                <div class="relative bg-slate-950 p-4 h-full overflow-hidden">
-                    <div class="glass rounded-[2rem] overflow-hidden h-full">
-                        <iframe id="canvasFrame" sandbox="allow-scripts allow-modals"></iframe>
+
+                <div id="canvasContainer" class="relative bg-[#010413] p-6 h-full border-l border-white/5">
+                    <div class="flex justify-between items-center mb-5 px-3">
+                        <span class="text-[10px] font-black text-indigo-400 uppercase tracking-widest italic"><i class="fa-solid fa-wave-square mr-2"></i>Live Neural Artifact</span>
+                        <button onclick="toggleCanvas(false)" class="text-slate-500 hover:text-white transition"><i class="fa-solid fa-xmark"></i></button>
+                    </div>
+                    <div class="glass rounded-[3rem] overflow-hidden h-[calc(100%-50px)] shadow-[0_0_100px_rgba(0,0,0,0.5)]">
+                        <iframe id="canvasFrame" class="w-full h-full bg-white" sandbox="allow-scripts allow-modals"></iframe>
                     </div>
                 </div>
             </div>
         </main>
     </div>
 
-    <aside id="sidebar" class="sidebar-settings fixed inset-y-0 right-0 w-80 translate-x-full p-8 flex flex-col border-l border-white/10">
-        <div class="flex justify-between items-center mb-6">
-            <h2 class="text-xl font-black italic tracking-tighter uppercase">NEXUS <span class="text-indigo-500">ID</span></h2>
-            <button onclick="toggleSidebar()" class="text-slate-500"><i class="fa-solid fa-xmark"></i></button>
+    <aside id="sidebar" class="sidebar-settings fixed inset-y-0 right-0 w-80 translate-x-full p-10 flex flex-col border-l border-white/10 shadow-[-100px_0_150px_rgba(0,0,0,0.9)]">
+        <div class="flex justify-between items-center mb-10">
+            <h2 class="text-2xl font-black italic tracking-tighter uppercase">NEXUS <span class="text-indigo-500">V12</span></h2>
+            <button onclick="playClick(); toggleSidebar();" class="text-slate-500 hover:text-white transition"><i class="fa-solid fa-xmark"></i></button>
         </div>
         
-        <div class="flex-1 overflow-y-auto no-scrollbar space-y-8">
+        <div class="flex-1 overflow-y-auto no-scrollbar space-y-10">
             <div class="space-y-4">
-                <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest">account settings</label>
-                <div class="space-y-2">
-                    <div class="flex items-center gap-3 p-4 bg-indigo-600/10 border border-indigo-500/30 rounded-2xl">
-                        <div class="w-10 h-10 rounded-full bg-indigo-500 flex items-center justify-center font-bold text-xs" id="sideInitial">V</div>
+                <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest italic">User Identity</label>
+                <div class="space-y-3">
+                    <div class="flex items-center gap-4 p-5 bg-indigo-600/10 border border-indigo-500/30 rounded-[2.5rem]">
+                        <div class="w-12 h-12 rounded-full bg-indigo-600 flex items-center justify-center font-black text-xs border-2 border-white/10" id="sideInitial">V</div>
                         <div class="flex-1 overflow-hidden">
-                            <p id="sideUserName" class="text-xs font-black truncate">Commander</p>
-                            <p class="text-[8px] font-bold text-indigo-400 uppercase tracking-widest">Primary Identify</p>
+                            <p id="sideUserName" class="text-xs font-black truncate uppercase">COMMANDER</p>
+                            <p class="text-[8px] font-bold text-indigo-400 uppercase tracking-widest">Master User</p>
                         </div>
                     </div>
-                    <button onclick="alert('Sinkronisasi Akun Kedua...')" class="w-full p-3 border-2 border-dashed border-white/10 rounded-2xl text-[9px] font-black uppercase tracking-widest text-slate-500 hover:text-white transition">
-                        + Tambah Akun
-                    </button>
                 </div>
             </div>
 
             <div class="space-y-4">
-                <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest"> nexus History</label>
-                <div id="neuralHistoryList" class="space-y-2">
-                    <div class="text-[9px] text-slate-600 text-center py-4 italic">Memproses riwayat cloud...</div>
+                <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest italic">History</label>
+                <div id="neuralHistoryList" class="space-y-3">
+                    <p class="text-[9px] text-slate-700 text-center py-10 font-bold uppercase tracking-widest">Searching Archives...</p>
                 </div>
-            </div
-            <div class="space-y-4">
-                <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest">system pikey</label>
-                <input type="password" id="apiKey" class="w-full bg-slate-950 p-4 rounded-xl border border-white/10 text-xs text-white" placeholder="Key Gemini...">
-                <button onclick="saveSettings()" class="w-full py-4 bg-indigo-600 text-white rounded-xl font-black text-[10px] uppercase shadow-lg shadow-indigo-500/20">Sync Neural</button>
             </div>
         </div>
 
-        <div class="pt-6">
-            <button onclick="handleLogout()" class="w-full py-4 bg-red-500/10 text-red-500 rounded-xl font-black text-[10px] uppercase border border-red-500/20">Logout Nexus</button>
+        <div class="pt-8 border-t border-white/5">
+            <button onclick="playClick(); handleLogout();" class="w-full py-4 bg-red-500/10 text-red-500 rounded-2xl font-black text-[10px] uppercase border border-red-500/20 tracking-widest hover:bg-red-500/20 transition">Terminasi Protocol</button>
         </div>
     </aside>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, setDoc, getDoc, collection, addDoc, query, onSnapshot, serverTimestamp, orderBy, limit } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         const firebaseConfig = {
@@ -162,6 +199,9 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
+        const provider = new GoogleAuthProvider();
+
+        let isLoginMode = true;
 
         onAuthStateChanged(auth, async (user) => {
             const ls = document.getElementById('loadingScreen');
@@ -174,81 +214,101 @@
                 document.getElementById('welcomeName').innerText = name.toUpperCase();
                 document.getElementById('userInitial').innerText = initial;
                 document.getElementById('sideInitial').innerText = initial;
-                document.getElementById('sideUserName').innerText = name;
+                document.getElementById('sideUserName').innerText = name.toUpperCase();
                 
                 ap.style.display = 'none';
                 content.style.display = 'flex';
 
                 const vault = await getDoc(doc(db, 'artifacts', 'virza-v12', 'users', user.uid, 'settings', 'vault'));
-                if(vault.exists()) {
-                    const key = vault.data().gemini;
-                    document.getElementById('apiKey').value = key;
-                    localStorage.setItem('virza_v12_key', key);
-                }
+                if(vault.exists()) localStorage.setItem('virza_v12_key', vault.data().gemini);
                 loadNeuralHistory(user.uid);
             } else {
                 ap.style.display = 'flex';
                 content.style.display = 'none';
+                renderAuthUI();
             }
-            setTimeout(() => { ls.style.opacity = '0'; setTimeout(() => ls.style.display = 'none', 500); }, 800);
+            setTimeout(() => { ls.style.opacity = '0'; setTimeout(() => ls.style.display = 'none', 1000); }, 1500);
         });
 
+        function renderAuthUI() {
+            const container = document.getElementById('authContainer');
+            if (isLoginMode) {
+                container.innerHTML = `
+                    <h1 class="text-3xl font-black italic mb-2 uppercase tracking-tighter">NEXUS <span class="text-indigo-500">V12</span></h1>
+                    <p class="text-[9px] font-bold text-slate-500 uppercase tracking-widest mb-10 italic">Akses Terminal Login</p>
+                    <div class="space-y-4">
+                        <input type="email" id="authEmail" class="w-full p-5 bg-white/5 rounded-2xl border border-white/10 text-sm outline-none focus:border-indigo-500 transition" placeholder="Neural ID (Email)">
+                        <input type="password" id="authPass" class="w-full p-5 bg-white/5 rounded-2xl border border-white/10 text-sm outline-none focus:border-indigo-500 transition" placeholder="Security Code">
+                        <button onclick="playClick(); handleEmailAuth();" class="w-full py-5 bg-indigo-600 rounded-2xl font-black text-xs uppercase tracking-widest shadow-xl shadow-indigo-600/30 active:scale-95 transition">Inisialisasi Akses</button>
+                    </div>
+                `;
+                document.getElementById('authSwitchText').innerHTML = `Belum punya akses? <span onclick="toggleAuthMode()" class="text-indigo-400 auth-toggle underline decoration-dashed">Daftar Protocol Baru</span>`;
+            } else {
+                container.innerHTML = `
+                    <h1 class="text-3xl font-black italic mb-2 uppercase tracking-tighter">NEXUS <span class="text-indigo-500">GATE</span></h1>
+                    <p class="text-[9px] font-bold text-slate-500 uppercase tracking-widest mb-10 italic">Registrasi User Baru</p>
+                    <div class="space-y-4">
+                        <input type="text" id="regName" class="w-full p-5 bg-white/5 rounded-2xl border border-white/10 text-sm outline-none focus:border-indigo-500 transition" placeholder="Commander Name">
+                        <input type="email" id="authEmail" class="w-full p-5 bg-white/5 rounded-2xl border border-white/10 text-sm outline-none focus:border-indigo-500 transition" placeholder="Email Baru">
+                        <input type="password" id="authPass" class="w-full p-5 bg-white/5 rounded-2xl border border-white/10 text-sm outline-none focus:border-indigo-500 transition" placeholder="Password Baru">
+                        <button onclick="playClick(); handleEmailAuth();" class="w-full py-5 bg-emerald-600 rounded-2xl font-black text-xs uppercase tracking-widest shadow-xl shadow-emerald-600/30 active:scale-95 transition">Buat Protocol Identitas</button>
+                    </div>
+                `;
+                document.getElementById('authSwitchText').innerHTML = `Sudah terdaftar? <span onclick="toggleAuthMode()" class="text-indigo-400 auth-toggle underline decoration-dashed">Kembali ke Terminal</span>`;
+            }
+        }
+
+        window.toggleAuthMode = () => {
+            isLoginMode = !isLoginMode;
+            renderAuthUI();
+        };
+
+        window.handleEmailAuth = () => {
+            const email = document.getElementById('authEmail').value;
+            const pass = document.getElementById('authPass').value;
+            if(!email || !pass) return;
+
+            if(isLoginMode) {
+                signInWithEmailAndPassword(auth, email, pass).catch(err => alert("Gagal Masuk: " + err.message));
+            } else {
+                createUserWithEmailAndPassword(auth, email, pass).catch(err => alert("Gagal Daftar: " + err.message));
+            }
+        };
+
+        window.handleGoogleLogin = () => {
+            signInWithPopup(auth, provider).catch(err => alert("Google Auth Failed: " + err.message));
+        };
+
+        window.handleLogout = () => signOut(auth);
+
         async function loadNeuralHistory(uid) {
-            const q = query(collection(db, 'artifacts', 'virza-v12', 'users', uid, 'history'), orderBy('timestamp', 'desc'), limit(15));
+            const q = query(collection(db, 'artifacts', 'virza-v12', 'users', uid, 'history'), orderBy('timestamp', 'desc'), limit(10));
             onSnapshot(q, (snap) => {
                 const list = document.getElementById('neuralHistoryList');
                 list.innerHTML = "";
                 snap.forEach(d => {
                     const m = d.data();
-                    const date = m.timestamp ? m.timestamp.toDate() : new Date();
-                    const days = ["MINGGU", "SENIN", "SELASA", "RABU", "KAMIS", "JUMAT", "SABTU"];
-                    const dayLabel = days[date.getDay()];
-                    const dateStr = `${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`;
-                    
                     list.innerHTML += `
-                        <div class="history-item p-3 rounded-xl bg-white/5 border border-white/5 cursor-pointer">
-                            <div class="flex justify-between items-start mb-1">
-                                <span class="text-[7px] font-black text-indigo-400 uppercase tracking-widest">${dayLabel} | ${dateStr}</span>
-                                <span class="text-[7px] font-black text-slate-500 uppercase">${m.portal || 'GENERAL'}</span>
-                            </div>
-                            <p class="text-[10px] text-slate-300 truncate font-bold uppercase tracking-tighter italic">"${m.prompt}"</p>
+                        <div class="p-4 rounded-2xl bg-white/5 border border-white/5 cursor-pointer hover:bg-white/10 transition">
+                            <p class="text-[9px] text-slate-300 truncate font-bold uppercase italic tracking-tighter">"${m.prompt}"</p>
                         </div>
                     `;
                 });
             });
         }
 
-        window.handleAuth = () => {
-            const e = document.getElementById('email').value;
-            const p = document.getElementById('password').value;
-            signInWithEmailAndPassword(auth, e, p).catch(err => alert(err.message));
-        };
-        window.handleLogout = () => signOut(auth);
-        window.saveSettings = async () => {
-            const key = document.getElementById('apiKey').value;
-            if(auth.currentUser) {
-                await setDoc(doc(db, 'artifacts', 'virza-v12', 'users', auth.currentUser.uid, 'settings', 'vault'), { gemini: key });
-                localStorage.setItem('virza_v12_key', key);
-                alert("Cloud Sync Complete!");
-                window.toggleSidebar();
-            }
-        };
-
         window.executeAI = async () => {
             const prompt = document.getElementById('aiInput').value;
             const key = localStorage.getItem('virza_v12_key');
-            if(!prompt || !key) return alert("Missing API Key!");
+            if(!prompt || !key) return;
 
             const chat = document.getElementById('chatHistory');
-            chat.innerHTML += `<div class="p-4 bg-indigo-600 text-white rounded-2xl rounded-br-none ml-auto text-xs max-w-[85%] mb-4">${prompt}</div>`;
+            chat.innerHTML += `<div class="flex justify-end mb-6"><div class="bg-indigo-600 text-white p-6 rounded-[2rem] rounded-br-none text-xs font-semibold max-w-[85%]">${prompt}</div></div>`;
             document.getElementById('aiInput').value = "";
+            chat.scrollTop = chat.scrollHeight;
 
             try {
-                if(auth.currentUser) {
-                    await addDoc(collection(db, 'artifacts', 'virza-v12', 'users', auth.currentUser.uid, 'history'), {
-                        prompt, portal: window.activePortal || 'GENERAL', timestamp: serverTimestamp()
-                    });
-                }
+                if(auth.currentUser) await addDoc(collection(db, 'artifacts', 'virza-v12', 'users', auth.currentUser.uid, 'history'), { prompt, timestamp: serverTimestamp() });
                 
                 const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${key}`, {
                     method: 'POST',
@@ -257,76 +317,87 @@
                 });
                 const data = await res.json();
                 const text = data.candidates[0].content.parts[0].text;
-                chat.innerHTML += `<div class="p-4 bg-white/5 border border-white/5 rounded-2xl rounded-bl-none text-xs text-slate-300 max-w-[85%] mb-4">${text}</div>`;
+                
+                chat.innerHTML += `<div class="flex justify-start mb-6"><div class="bg-white/5 border border-white/5 text-slate-300 p-6 rounded-[2rem] rounded-bl-none text-xs max-w-[90%] leading-relaxed">${text.replace(/\n/g, '<br>')}</div></div>`;
                 
                 const codeMatch = text.match(/```html?([\s\S]*?)```/);
                 if(codeMatch) {
+                    toggleCanvas(true);
                     const blob = new Blob([codeMatch[1].trim()], { type: 'text/html' });
                     document.getElementById('canvasFrame').src = URL.createObjectURL(blob);
+                } else {
+                    toggleCanvas(false);
                 }
-            } catch (err) { alert("Signal Lost. Check Key."); }
+            } catch (err) { alert("Neural Connection Lost."); }
             chat.scrollTop = chat.scrollHeight;
+        };
+
+        window.toggleCanvas = (show) => {
+            const container = document.getElementById('canvasContainer');
+            const workspace = document.getElementById('workspace');
+            show ? (container.classList.add('active'), workspace.classList.add('with-canvas')) : (container.classList.remove('active'), workspace.classList.remove('with-canvas'));
         };
     </script>
 
-    <script>
-        function initGlobalSystems() {
-            const updateClock = () => {
+        <script>
+        function playClick() {
+            const audio = document.getElementById('clickSound');
+            audio.currentTime = 0;
+            audio.play().catch(()=>{});
+        }
+
+        function initClock() {
+            const update = () => {
                 const now = new Date();
-                const days = ["MINGGU", "SENIN", "SELASA", "RABU", "KAMIS", "JUMAT", "SABTU"];
-                const months = ["JAN", "FEB", "MAR", "APR", "MEI", "JUN", "JUL", "AGU", "SEP", "OKT", "NOV", "DES"];
-                
-                document.getElementById('fullDate').innerText = `${days[now.getDay()]}, ${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}`;
-                document.getElementById('liveClock').innerText = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
-                setTimeout(updateClock, 1000);
+                document.getElementById('fullDate').innerText = now.toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }).toUpperCase();
+                document.getElementById('liveClock').innerText = now.toLocaleTimeString('id-ID', { hour12: false });
+                setTimeout(update, 1000);
             };
-            updateClock()
-            if ("geolocation" in navigator) {
-                navigator.geolocation.getCurrentPosition((pos) => {
+            update();
+            if(navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(() => {
                     const badge = document.getElementById('gpsStatus');
-                    badge.classList.remove('bg-red-500/10', 'text-red-500');
-                    badge.classList.add('bg-green-500/10', 'text-green-500');
-                    badge.innerHTML = `<i class="fa-solid fa-satellite-dish"></i> GPS ACTIVE`;
+                    badge.classList.replace('bg-red-500/10', 'bg-green-500/10');
+                    badge.classList.replace('text-red-500', 'text-green-500');
+                    badge.innerHTML = `<i class="fa-solid fa-satellite-dish mr-1"></i> GPS ACTIVE`;
                     const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
-                    document.getElementById('locationName').innerText = tz.split('/').pop().replace('_', ' ') + " PORT";
-                }, () => {
-                    document.getElementById('locationName').innerText = "LOCATION BLOCKED";
+                    document.getElementById('locationName').innerText = tz.split('/').pop().toUpperCase() + " PORT";
                 });
             }
         }
-        initGlobalSystems();
+        initClock();
 
         const portals = [
-            { id: 'coding', name: 'Architect', icon: 'fa-code' },
-            { id: 'image', name: 'Image HD', icon: 'fa-image' },
-            { id: 'chat', name: 'Smart AI', icon: 'fa-comment' },
-            { id: 'vision', name: 'Vision Pro', icon: 'fa-eye' },
-            { id: 'web', name: 'Web Weaver', icon: 'fa-globe' },
-            { id: 'cyber', name: 'Cyber Guard', icon: 'fa-shield' },
-            { id: 'math', name: 'Quantum', icon: 'fa-calculator' },
-            { id: 'seo', name: 'SEO Master', icon: 'fa-magnifying-glass' },
-            { id: 'data', name: 'Data Miner', icon: 'fa-database' },
-            { id: 'social', name: 'Social Ads', icon: 'fa-hashtag' },
-            { id: 'video', name: 'Motion AI', icon: 'fa-film' },
-            { id: 'audio', name: 'Sonic Wave', icon: 'fa-music' },
-            { id: 'logo', name: 'Brand AI', icon: 'fa-pen-nib' },
-            { id: 'lang', name: 'Polyglot', icon: 'fa-language' },
-            { id: 'bug', name: 'Debug Sys', icon: 'fa-bug' },
-            { id: 'cloud', name: 'Cloud Drive', icon: 'fa-cloud' },
-            { id: 'sec', name: 'Vault Pro', icon: 'fa-key' },
-            { id: 'write', name: 'Ghost Writer', icon: 'fa-book' },
-            { id: 'game', name: 'Game Dev', icon: 'fa-gamepad' },
-            { id: 'law', name: 'Law Logic', icon: 'fa-gavel' }
+            { id: 'coding', name: 'Architect', icon: 'fa-code', color: '#818cf8' },
+            { id: 'image', name: 'Image HD', icon: 'fa-image', color: '#f472b6' },
+            { id: 'chat', name: 'Smart AI', icon: 'fa-comment', color: '#34d399' },
+            { id: 'vision', name: 'Vision Pro', icon: 'fa-eye', color: '#fbbf24' },
+            { id: 'web', name: 'Web Weaver', icon: 'fa-globe', color: '#60a5fa' },
+            { id: 'cyber', name: 'Cyber Guard', icon: 'fa-shield', color: '#f87171' },
+            { id: 'math', name: 'Quantum', icon: 'fa-calculator', color: '#a78bfa' },
+            { id: 'seo', name: 'SEO Master', icon: 'fa-magnifying-glass', color: '#2dd4bf' },
+            { id: 'data', name: 'Data Miner', icon: 'fa-database', color: '#94a3b8' },
+            { id: 'social', name: 'Social Ads', icon: 'fa-hashtag', color: '#fb7185' },
+            { id: 'video', name: 'Motion AI', icon: 'fa-film', color: '#fb923c' },
+            { id: 'audio', name: 'Sonic Wave', icon: 'fa-music', color: '#4ade80' },
+            { id: 'logo', name: 'Brand AI', icon: 'fa-pen-nib', color: '#e879f9' },
+            { id: 'lang', name: 'Polyglot', icon: 'fa-language', color: '#818cf8' },
+            { id: 'bug', name: 'Debug Sys', icon: 'fa-bug', color: '#ef4444' },
+            { id: 'cloud', name: 'Cloud Drive', icon: 'fa-cloud', color: '#38bdf8' },
+            { id: 'sec', name: 'Vault Pro', icon: 'fa-key', color: '#fbbf24' },
+            { id: 'write', name: 'Ghost Writer', icon: 'fa-book', color: '#c084fc' },
+            { id: 'game', name: 'Game Dev', icon: 'fa-gamepad', color: '#f472b6' },
+            { id: 'law', name: 'Law Logic', icon: 'fa-gavel', color: '#fca5a5' }
         ];
 
         function renderPortals(list) {
             const grid = document.getElementById('portalGrid');
             grid.innerHTML = (list || portals).map(p => `
-                <div onclick="enterPortal('${p.id}', '${p.name}')" class="portal-card p-6 flex flex-col items-center gap-3">
-                    <div class="w-12 h-12 bg-indigo-500/10 rounded-2xl flex items-center justify-center text-indigo-400 text-xl border border-white/5">
+                <div onclick="playClick(); enterPortal('${p.id}', '${p.name}')" class="portal-card p-10 flex flex-col items-center gap-5">
+                    <div class="w-20 h-20 rounded-[2rem] flex items-center justify-center text-3xl border border-white/5" style="background: ${p.color}15; color: ${p.color}">
                         <i class="fa-solid ${p.icon}"></i>
                     </div>
-                    <span class="text-[8px] font-black uppercase tracking-widest text-slate-400">${p.name}</span>
+                    <span class="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400">${p.name}</span>
                 </div>
             `).join('');
         }
@@ -334,10 +405,10 @@
 
         window.toggleSidebar = () => document.getElementById('sidebar').classList.toggle('translate-x-full');
         window.enterPortal = (id, name) => {
-            window.activePortal = id;
             document.getElementById('lobby').classList.add('hidden');
             document.getElementById('workspace').classList.remove('hidden');
             document.getElementById('backBtn').classList.remove('hidden');
+            toggleCanvas(false);
         };
         window.goToLobby = () => {
             document.getElementById('lobby').classList.remove('hidden');
@@ -351,3 +422,5 @@
     </script>
 </body>
 </html>
+
+    
