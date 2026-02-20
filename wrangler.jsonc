@@ -1,5 +1,5 @@
 {
-  "name": "virza-nexuz-AI",
-  "main": "src/index.js", 
+  "name": "virza-nexus",
+  "main": "src/index.js",
   "compatibility_date": "2026-02-20"
 }
